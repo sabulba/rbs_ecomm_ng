@@ -1,0 +1,65 @@
+<section class="border-blue-500 mt-10">
+  <h3 class="text-3xl font-semibold text-gray-700 text-center mb-3">
+    סיכום הזמנה
+    <i title="Shopping Cart" class="fa-solid fa-bag-shopping mr-2"></i>
+  </h3>
+  <ng-template #empty>
+    <section class="flex justify-center items-center h-[60vh]">
+      <div class="text-gray-500 flex flex-col justify-center items-center">
+            <span class="text-4xl">
+                <i class="fa-solid fa-bag-shopping"></i>
+            </span>
+        <h4 class="text-2xl px-4 py-2">אין פריטים בעגלה</h4>
+        <a [routerLink]="['/']"
+           class="px-4 py-2 mt-5 bg-gray-800 text-white">
+          חזרה לתפריט מוצרים
+        </a>
+      </div>
+    </section>
+  </ng-template>
+
+  <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-6 w-[90vw] h-full" *ngIf="cart.length>0; else empty">
+    <article class="col-span-1 md:col-span-2 lg:col-span-2 ">
+      <div class="border-y-2 border-gray-300 overflow-y-auto max-h-[550px] p-2">
+        <app-cartitem
+          *ngFor="let item of cart"
+          [item]="item"
+        >
+        </app-cartitem>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full items-center">
+
+        <!-- Reset Cart -->
+        <div class="flex justify-center">
+          <button (click)="clearCart()"
+            class="flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white px-20 py-3 rounded shadow text-xl font-semibold">
+            <i class="fa-solid fa-trash text-xl"></i>
+            <span class="text-lg">מחיקה</span>
+          </button>
+        </div>
+
+        <!-- Total Display (centered and enlarged) -->
+        <div class="flex flex-col items-center justify-center text-center">
+          <span class="text-4xl font-bold">{{ estimatedTotal | currency:'ILS':'symbol':'1.2-2' }}</span>
+          <span class="text-2xl font-semibold mt-1">סה"כ</span>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="flex justify-center">
+          <button
+            type="submit"
+            (click)="saveOrder()"
+            class="flex items-center justify-center gap-2 bg-[#3c64a9] hover:bg-[#2f4e89] text-white px-20 py-3 rounded shadow text-xl font-semibold">
+            <span class="text-lg">תשלום</span>
+            <i class="fa-solid fa-lock text-lg"></i>
+          </button>
+        </div>
+
+      </div>
+
+
+    </article>
+  </div>
+</section>
+<app-order-summary-sheet *ngIf="showStatus"></app-order-summary-sheet>

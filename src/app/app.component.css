@@ -1,0 +1,40 @@
+/* App Layout */
+.app-container {
+  display: grid;
+  min-width: 100vw;
+  min-height: 100vh;
+  grid-template-columns: 100%;
+  grid-template-rows: 4.1vh 90vh;
+  overflow: hidden;
+}
+
+/* Laptop (e.g., typical 13" and up) */
+@media screen and (min-width: 1200px) {
+  .app-container {
+    grid-template-rows: 9vh 86.4vh;
+  }
+}
+
+/* Header */
+app-header {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 10; /* Ensures header stays on top */
+  background-color: #fff; /* Adjust as needed */
+}
+
+/* Footer */
+app-footer {
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  z-index: 10; /* Ensures footer stays at bottom */
+  background-color: #fff; /* Adjust as needed */
+}
+
+/* Main Content */
+main {
+  overflow: hidden; /* Enable scrolling only for main content */
+  padding: 1rem;
+}

@@ -1,0 +1,40 @@
+
+<div class="p-6 text-center space-y-4">
+  <div class="text-green-600 text-4xl">
+    <i class="fa-solid fa-circle-check"></i>
+  </div>
+  <h2 class="text-xl font-bold">ההזמנה שלך התקבלה בהצלחה</h2>
+
+  <div class="text-gray-700">
+    שלום <span class="font-semibold">{{ data?.user.firstName }} {{ data?.user.lastName }}</span>,
+  </div>
+
+  <div class="text-gray-800">
+    סך התשלום: <span class="font-bold text-lg text-green-700">{{ data?.total | currency: 'ILS' }}</span>
+  </div>
+
+  <div class="text-gray-600">
+    סטטוס הזמנה:
+    <span class="font-medium capitalize" [ngClass]="{
+          'text-yellow-500': data?.orderStatus === 'pending',
+          'text-green-600': data?.orderStatus === 'confirmed',
+          'text-red-500': data?.orderStatus === 'failed'
+        }">
+          {{ data?.orderStatus }}
+        </span>
+  </div>
+
+  <div class="flex justify-end gap-4 mt-6">
+    <!-- Cancel Button - Red -->
+    <button (click)="cancel()"
+            mat-raised-button color="warn">
+      ביטול
+    </button>
+
+    <button (click)="confirm()"
+            mat-raised-button style="background: lightgreen">
+      אישור
+    </button>
+  </div>
+</div>
+

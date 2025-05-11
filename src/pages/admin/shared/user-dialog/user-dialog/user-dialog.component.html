@@ -1,0 +1,56 @@
+<h2 mat-dialog-title>{{ data.mode === 'create' ? 'משתמש חדש' : data.mode === 'edit' ? 'עריכת משתמש' : 'פרטי משתמש' }}</h2>
+<form [formGroup]="form" (ngSubmit)="save()" mat-dialog-content >
+  <div class="grid grid-cols-2 gap-2">
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>שם פרטי</mat-label>
+      <input matInput formControlName="firstName" [readonly]="isViewMode">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>שם משפחה</mat-label>
+      <input matInput formControlName="lastName" [readonly]="isViewMode">
+    </mat-form-field>
+  </div>
+  <div class="grid grid-cols-2 gap-2">
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>EMAIL</mat-label>
+      <input matInput formControlName="email" type="email" [readonly]="isViewMode">
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>סלולאר</mat-label>
+      <input matInput formControlName="cellular" type="tel" [readonly]="isViewMode">
+    </mat-form-field>
+  </div>
+  <div class="grid grid-cols-2 gap-2">
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>מספר חשבון</mat-label>
+      <input
+        type="text"
+        matInput
+        [matAutocomplete]="auto"
+        formControlName="accountNumber"
+        [readonly]="false"
+        placeholder="בחר חשבון" />
+
+      <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption (optionSelected)="onAccountSelected($event.option.value , data.user)">
+        <mat-option *ngFor="let option of filteredOptions" [value]="option.accountNumber">
+          {{ option.accountNumber || '—' }} - {{ option.firstName || '' }} {{ option.lastName || '' }}
+        </mat-option>
+
+      </mat-autocomplete>
+    </mat-form-field>
+
+
+    <!-- Status Column -->
+    <mat-slide-toggle formControlName="status">
+      {{ form.get('status')?.value ? 'מוכן' : 'ממתין' }}
+    </mat-slide-toggle>
+
+
+  </div>
+
+  <div mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-raised-button color="primary" type="submit" *ngIf="!isViewMode">Save</button>
+  </div>
+</form>

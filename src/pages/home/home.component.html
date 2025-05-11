@@ -1,0 +1,42 @@
+
+<div class="flex flex-col gap-4  pr-10 max-h-[80vh] overflow-auto">
+    <!-- Product Grid -->
+    <div *ngIf="!isLoading" class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-4">
+      <div *ngFor="let product of products; let i = index" class="border rounded shadow p-4 bg-white">
+
+        <div class="grid grid-cols-1 grid-rows-2 gap-1 justify-items-center  items-center">
+          <img
+
+            [src]="product?.imageUrl || 'beer.png'"
+            alt="{{ product?.name }}"
+            class="h-20 w-20 rounded-full object-cover row-span-1" />
+            <div class="row-span-2">
+              <h3 class="text-lg font-semibold text-gray-800">{{ product.name }}</h3>
+              <p class="text-gray-600">{{ product.description }}</p>
+              <p class="text-gray-800 font-bold mt-2">{{ product?.price | currency }}</p>
+            </div>
+        </div>
+        <button
+          class="relative mt-4 bg-[#3d3d3d] text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
+          (click)="addToCart(product)">
+
+          <span>הוסף לעגלה</span>
+
+          <span
+            *ngIf="productCounts[product.id] > 0"
+            class="absolute -top-2 -right-2 bg-red-600 text-xs text-white rounded-full w-5 h-5 flex items-center justify-center">
+              {{ productCounts[product.id] }}
+          </span>
+
+        </button>
+      </div>
+  </div>
+</div>
+
+<!-- Loader -->
+<div *ngIf="isLoading" class="fixed inset-0 flex items-center justify-center bg-white z-50">
+  <div class="relative w-26 h-26">
+    <div class="absolute inset-0 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+    <img src="beer.png" alt="Loading" class="w-12 h-12 relative z-10 top-6 left-6">
+  </div>
+</div>

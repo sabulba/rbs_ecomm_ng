@@ -1,0 +1,95 @@
+/* Style the header of the table */
+.mat-header-cell {
+  font-weight: bold;
+  background-color: silver;
+  text-align: left;
+  padding: 16px;
+}
+
+.mat-mdc-table {
+  min-width: 90vw;
+}
+.mat-column-name, .mat-column-category, .mat-column-price {
+  text-align: left;
+}
+
+/* Style the actions buttons */
+button.action-btn {
+  width: 120px;
+  margin-right: 8px;
+  margin-top: 4px;
+}
+
+.mat-paginator {
+  margin-top: 16px;
+}
+
+/* Add some spacing between the buttons and table */
+.mat-raised-button {
+  min-width: 120px;
+}
+
+/* Add extra margin to the right of the "Create New" button */
+.text-right button {
+  margin-right: 0;
+}
+
+/* Pagination Controls */
+.mat-paginator .mat-paginator-range-label {
+  font-size: 14px;
+}
+.table-container {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 83vh; /* or any height you prefer */
+  padding: 0 16px; /* Add some padding to the sides */
+}
+
+
+.loading-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+mat-header-row {
+  position: sticky;
+  top: 0;
+  background: silver;
+  z-index: 5;
+}
+
+th.mat-header-cell {
+  position: sticky;
+  top: 0;
+  background: silver;
+  z-index: 10;
+}
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: content-box;
+}
+
+header {
+  height: 3rem; /* or whatever your header height is */
+  flex-shrink: 0;
+}
+
+main {
+  flex: 1 0 auto; /* main will stretch to fill the remaining space */
+  overflow: auto; /* optional: scroll inside main if needed */
+}
+
+footer {
+  height: 3rem; /* set your fixed footer height */
+  flex-shrink: 0;
+}
+.mat-mdc-header-cell {
+  background-color: silver!important;
+  color: black;
+  font-weight: bold;
+}

@@ -1,0 +1,56 @@
+<h2 mat-dialog-title>{{ data.mode === 'create' ? 'מוצר חדש' : data.mode === 'edit' ? 'עריכת מוצר' : 'פרטי מוצר' }}</h2>
+<form [formGroup]="form" (ngSubmit)="save()" mat-dialog-content>
+  <div class="grid grid-cols-2 gap-2">
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>שם מוצר</mat-label>
+      <input matInput formControlName="name" [readonly]="isViewMode">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>קטגוריה</mat-label>
+      <input matInput formControlName="category" [readonly]="isViewMode">
+    </mat-form-field>
+  </div>
+  <div class="grid grid-cols-2 gap-2">
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>מחיר</mat-label>
+      <input matInput formControlName="price" type="number" [readonly]="isViewMode">
+    </mat-form-field>
+    <div class="mb-3">
+      <label>העלה תמונה</label><br />
+      <input
+        type="file"
+        accept="image/*"
+        (change)="onImageSelected($event)"
+        [disabled]="isViewMode"
+        #fileInput
+      />
+    </div>
+
+    <div *ngIf="imagePreview" class="mt-2">
+      <img
+        [src]="imagePreview"
+        alt="Preview"
+        style="max-width: 100%; max-height: 200px; border-radius: 8px;"
+      />
+    </div>
+
+  </div>
+  <mat-form-field appearance="fill" class="w-full">
+    <mat-label>תיאור</mat-label>
+      <textarea
+        matInput
+        formControlName="desc"
+        [readonly]="isViewMode"
+        rows="4"
+      ></textarea>
+    </mat-form-field>
+
+
+
+
+  <div mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-raised-button color="primary" type="submit" *ngIf="!isViewMode">Save</button>
+  </div>
+</form>

@@ -1,0 +1,76 @@
+<div class="p-3 max-w-[430px] min-w-[380px] mx-auto bg-white shadow-lg rounded-lg">
+  <h4 class="py-4 text-gray-700 text-xl text-center font-semibold border-b">רישום</h4>
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" dir="rtl">
+      <div class="grid grid-cols-2 gap-2">
+        <div class="mb-6">
+          <label for="firstName" class="block mb-2 text-sm font-medium text-gray-900">שם פרטי</label>
+          <input formControlName="firstName" type="text" id="firstName" placeholder="שם פרטי"
+                 class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 focus:border-2 dark:focus:border-gray-500 dark:shadow-sm-light">
+        </div>
+        <div class="mb-6">
+          <label for="lastName" class="block mb-2 text-sm font-medium text-gray-900">שם משפחה</label>
+          <input formControlName="lastName" type="text" id="lastname" placeholder="שם משפחה"
+                 class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 focus:border-2 dark:focus:border-gray-500 dark:shadow-sm-light">
+        </div>
+      </div>
+
+    <div class="grid grid-cols-2 gap-2">
+      <div class="mb-6">
+        <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
+        <input formControlName="email" type="email" id="email" placeholder="email@company.com"
+               class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 focus:border-2 dark:focus:border-gray-500 dark:shadow-sm-light">
+      </div>
+
+      <div class="mb-6">
+        <label for="cellular" class="block mb-2 text-sm font-medium text-gray-900">מספר סלולאר</label>
+        <input formControlName="cellular" type="tel" id="cellular" placeholder="מספר סלולאר"
+               class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 focus:border-2 dark:focus:border-gray-500 dark:shadow-sm-light">
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-2">
+      <div class="mb-6">
+        <label for="password" class="block mb-2 text-sm font-medium text-gray-900">סיסמה</label>
+        <input formControlName="password" type="password" id="password" placeholder="סיסמה"
+               class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 focus:border-2 dark:focus:border-gray-500 dark:shadow-sm-light">
+      </div>
+
+      <div class="mb-6">
+        <label for="repeatPassword" class="block mb-2 text-sm font-medium text-gray-900">חזרה על סיסמה</label>
+        <input formControlName="repeatPassword" type="password" id="repeatPassword" placeholder="חזרה על סיסמה"
+               class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 focus:border-2 dark:focus:border-gray-500 dark:shadow-sm-light">
+      </div>
+    </div>
+    <div class="w-full grid grid-cols-2 gap-4 items-center">
+      <!-- Project dropdown column -->
+      <app-project-select class="w-full" (projectSelected) = "onProjectPicked($event)"></app-project-select>
+
+      <!-- Role toggle column -->
+      <div class="w-full grid grid-cols-1 align-middle justify-items-center">
+        <label for="role" class="text-sm font-medium text-gray-900 mb-2 text-center">תפקיד</label>
+        <mat-slide-toggle color="primary" formControlName="role" class="self-center">
+          {{ registerForm.get('isAdmin')?.value ? 'מנהל' : 'משתמש' }}
+        </mat-slide-toggle>
+      </div>
+    </div>
+
+
+    <div class="flex items-center mb-0 p-3">
+      <input id="terms" type="checkbox" required
+             class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-gray-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"/>
+      <label for="terms" class="mr-2 text-sm font-medium text-gray-900">אני מסכים.ה עם
+        <a href="#" class="text-blue-800 hover:underline">תנאים והגבלות</a>
+      </label>
+    </div>
+
+    <button type="submit"
+            class="text-white bg-[#3c64a9] hover:bg-[#3c64a9] focus:ring-4 focus:outline-none focus:ring-[#3c64a9]-300 font-medium text-sm px-5 py-3 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800 w-full">
+      רישום
+    </button>
+
+    <p class="mt-4 text-sm text-center">
+     אם כבר נרשמת?
+      <a [routerLink]="['/login']"><b class="text-blue-800 hover:underline">כניסה</b></a>
+    </p>
+  </form>
+</div>

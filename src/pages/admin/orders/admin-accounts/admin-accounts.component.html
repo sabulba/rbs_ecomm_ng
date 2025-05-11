@@ -1,0 +1,61 @@
+<ng-container *ngIf="isLoading; else table">
+  <div class="loading-container">
+    <mat-progress-spinner
+      mode="indeterminate"
+      diameter="50"
+      color="primary">
+    </mat-progress-spinner>
+  </div>
+</ng-container>
+
+<ng-template #table>
+  <ng-container *ngIf="!isLoading">
+    <div class="table-container">
+      <table mat-table [dataSource]="accounts" class="mat-elevation-z8" matSort>
+
+        <!-- First Name Column -->
+        <ng-container matColumnDef="firstName" sticky>
+          <th mat-header-cell *matHeaderCellDef>שם פרטי</th>
+          <td mat-cell *matCellDef="let account">{{ account.firstName }}</td>
+        </ng-container>
+
+        <!-- Last Name Column -->
+        <ng-container matColumnDef="lastName">
+          <th mat-header-cell *matHeaderCellDef>שם משפחה</th>
+          <td mat-cell *matCellDef="let account">{{ account.lastName }}</td>
+        </ng-container>
+
+        <!-- Account Number Column -->
+        <ng-container matColumnDef="accountNumber" >
+          <th mat-header-cell *matHeaderCellDef>מספר חשבון</th>
+          <td mat-cell *matCellDef="let account">{{ account.accountNumber }}</td>
+        </ng-container>
+
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions" class="grid auto-cols-auto p-4">
+          <th mat-header-cell *matHeaderCellDef>
+            <div class="create-button-container grid grid-cols-2">
+              <button mat-raised-button color="accent" (click)="createAccount()" class="m-3 ">הוספת חדש.ה</button>
+              <div class="ml-1 mt-3">
+                <button mat-raised-button color="accent" (click)="fileInput.click()" class="w-[130px]">ייבוא חשבונות</button>
+                <input #fileInput type="file" accept=".csv" (change)="onFileSelected($event)" hidden />
+              </div>
+            </div>
+          </th>
+          <td mat-cell *matCellDef="let account">
+            <button mat-raised-button color="primary" class="action-btn" (click)="editAccount(account)">Edit</button>
+            <button mat-raised-button color="warn" class="action-btn" (click)="deleteAccount(account)">Delete</button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      </table>
+
+
+    </div>
+  </ng-container>
+
+</ng-template>
+<app-fab-menu></app-fab-menu>

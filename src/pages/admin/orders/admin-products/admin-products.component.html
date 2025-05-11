@@ -1,0 +1,63 @@
+<ng-container *ngIf="isLoading; else table">
+  <div class="loading-container">
+    <mat-progress-spinner
+      mode="indeterminate"
+      diameter="50"
+      color="primary">
+    </mat-progress-spinner>
+  </div>
+</ng-container>
+
+<ng-template #table>
+  <ng-container *ngIf="!isLoading">
+    <div class="table-container">
+      <table mat-table [dataSource]="products" class="mat-elevation-z8 w-full " matSort>
+        <!-- Image Column -->
+        <ng-container matColumnDef="imageUrl" >
+          <th mat-header-cell *matHeaderCellDef>תמונה</th>
+          <td mat-cell *matCellDef="let product"><img *ngIf="product.imageUrl" [src]="product.imageUrl" alt="image" class="rounded w-15 h-15 p-1"/> </td>
+        </ng-container>
+        <!-- Product Name Column -->
+        <ng-container matColumnDef="name" sticky>
+          <th mat-header-cell *matHeaderCellDef>שם מוצר</th>
+          <td mat-cell *matCellDef="let product">{{ product.name }}</td>
+        </ng-container>
+
+        <!-- Category Column -->
+        <ng-container matColumnDef="category">
+          <th mat-header-cell *matHeaderCellDef>קטגוריה</th>
+          <td mat-cell *matCellDef="let product">{{ product.category }}</td>
+        </ng-container>
+
+        <!-- Price Column -->
+        <ng-container matColumnDef="price" >
+          <th mat-header-cell *matHeaderCellDef>מחיר</th>
+          <td mat-cell *matCellDef="let product">{{ product.price | currency }}</td>
+        </ng-container>
+
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions" >
+          <th mat-header-cell *matHeaderCellDef >
+            <div class="grid justify-items-end mb-1">
+              <button mat-raised-button color="accent" (click)="createProduct()" class="m-3 create-button-container w-[7.4rem]">מוצר חדש</button>
+            </div>
+          </th>
+          <td mat-cell *matCellDef="let product" class="grid justify-end">
+            <div  class="grid grid-cols-2 justify-items-end w-[18rem] p-3">
+              <button mat-raised-button color="primary" class="action-btn" (click)="editProduct(product)">עריכה</button>
+              <button mat-raised-button color="warn"    class="action-btn" (click)="deleteProduct(product)">מחיקה</button>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      </table>
+
+
+    </div>
+  </ng-container>
+
+</ng-template>
+<app-fab-menu></app-fab-menu>

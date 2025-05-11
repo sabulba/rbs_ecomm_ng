@@ -1,0 +1,31 @@
+.top-nav-menu,
+.bottom-nav-menu {
+  display:flex;
+  align-items:center;
+  gap:5px;
+
+}
+.top-nav-menu-item a,
+.top-nav-menu-item button {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:4px;
+  font-size:1.3rem;
+  text-transform:uppercase;
+  transition:all 0.5s;
+
+}
+.bottom-nav-menu-item a:hover {
+  font-weight:600;
+  border-bottom:4px solid #374151;
+}
+
+.active-link {
+  font-weight:600;
+  border-bottom:4px solid #374151;
+}
+h2{
+  font-size:1.3rem;
+  color:#fff;
+}

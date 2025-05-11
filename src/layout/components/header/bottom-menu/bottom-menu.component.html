@@ -1,0 +1,25 @@
+<div class="bottom-sheet-container bg-gray-900">
+  <!-- Menu Items -->
+  <ul class="flex flex-col items-center gap-6">
+    <li>
+      <a (click)="close()" [routerLink]="['/']">
+        <h2>תפריט</h2>
+      </a>
+    </li>
+    <li>
+      <a (click)="close()" [routerLink]="['/cart']">
+        <h2>סל קניות</h2>
+      </a>
+    </li>
+    <li>
+      <a (click)="close()" [routerLink]="['/orders']">
+        <h2>הזמנות</h2>
+      </a>
+    </li>
+    <li>
+      <a (click)="close()" [routerLink]="['/admin/orders']">
+        <h2>ממשק ניהול</h2>
+      </a>
+    </li>
+  </ul>
+</div>

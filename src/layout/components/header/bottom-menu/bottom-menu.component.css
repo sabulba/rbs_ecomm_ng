@@ -1,0 +1,45 @@
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.bottom-sheet-container {
+  background-color: #fff; /* dark bg */
+  color: #000;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  animation: slideUp 0.4s ease-out;
+  height: 40vh; /* you can set height here too */
+}
+
+
+/* Header section */
+.bottom-sheet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 2px solid #ccc;
+}
+
+.bottom-sheet-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+}
+
+
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}

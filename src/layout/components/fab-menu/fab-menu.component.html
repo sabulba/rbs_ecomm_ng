@@ -1,0 +1,13 @@
+<div class="fixed bottom-8 right-8 flex flex-col items-end space-y-2" [class.open]="menuOpen">
+  <div *ngIf="menuOpen" class="flex flex-col items-end space-y-2 mb-2 transition-all duration-300">
+    <button (click)="action('accounts')" class="fab-menu-item">חשבונות</button>
+    <button (click)="action('users')" class="fab-menu-item">משתמשים</button>
+    <button (click)="action('products')" class="fab-menu-item">מוצרים</button>
+    <button (click)="action('orders')" class="fab-menu-item">הזמנות</button>
+  </div>
+
+  <button (click)="toggleMenu()" class="fab-main-button">
+    <span *ngIf="!menuOpen">☰</span> <!-- Hamburger icon -->
+    <span *ngIf="menuOpen">×</span>   <!-- Close icon -->
+  </button>
+</div>

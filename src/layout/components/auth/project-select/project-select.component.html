@@ -1,0 +1,16 @@
+<div class="grid grid-cols-1 align-middle justify-items-center w-full">
+  <label for="projectSelect" class="block mb-2 text-sm font-medium text-gray-900">
+    בחירת עסק
+  </label>
+
+  <select
+    id="projectSelect"
+    [(ngModel)]="selectedProjectId"
+    (change)="onProjectChange()"
+    class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 focus:border-2 dark:focus:border-gray-500 dark:shadow-sm-light">
+    <option value="" disabled selected>בחירת עסק</option>
+    <option *ngFor="let project of allProjects" [value]="project?.projectId" class="text-center">
+      {{ project?.name }}
+    </option>
+  </select>
+</div>

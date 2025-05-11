@@ -1,0 +1,97 @@
+<div class="w-[90vw] max-h-[80vh] p-6 grid grid-cols-[15%_85%] gap-3">
+  <!-- Filter Controls -->
+  <div class="grid grid-rows-[10% 10% 30% 20%] gap-1 h-30 ">
+    <!-- Status Filter -->
+
+    <button
+      class="px-4 py-2 rounded text-sm font-medium
+             row-start-1 col-start-1 w-full"
+      [ngClass]="{
+          'bg-yellow-600 text-white': selectedStatus === 'pending',
+          'bg-gray-200 text-gray-700': selectedStatus !== 'pending'
+        }"
+      (click)="onStatusChange('pending')">ממתין
+    </button>
+
+    <button
+      class="px-4 py-2 rounded text-sm font-medium
+             row-start-2 col-start-1 w-full"
+      [ngClass]="{
+          'bg-green-600 text-white': selectedStatus === 'confirmed',
+          'bg-gray-200 text-gray-700': selectedStatus !== 'confirmed'
+        }"
+      (click)="onStatusChange('confirmed')">בוצע
+    </button>
+
+    <!-- Month Filter -->
+
+    <h5 class="px-4 py-2  text-sm text-end font-medium
+             row-start-3 col-start-1 w-full">סינון חודשי</h5>
+
+    <input type="month" class="border border-gray-300 rounded p-2 text-sm
+                               row-start-4 col-start-1 w-full"
+           [value]="selectedMonth"
+           (change)="onMonthChange($event)">
+  </div>
+
+  <!-- Orders List -->
+  <div class="overflow-y-scroll h-[44rem] pr-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div *ngFor="let order of filteredOrders"
+           class="bg-white border border-blue-200 rounded-xl p-0 shadow-sm hover:shadow-md
+          transition duration-300 flex flex-col justify-between">
+
+        <!-- Header -->
+        <div class="p-2 text-[2rem] font-bold text-gray-800 mb-2 text-center bg-gray-800 text-white
+                        grid grid-cols-[84%_15%] items-center justify-items-center">
+          <span
+            class=" text-[2rem] font-bold text-gray-800 mb-2 text-center bg-gray-800 text-white"> {{ order?.firstName + " " + order?.lastName}}</span>
+          <i class="fa-solid mr-2 text-[2rem] justify-end"
+             [ngClass]="selectedStatus === 'pending' ? 'fa-hourglass-half text-yellow-500':'fa-check text-green-500'"></i>
+        </div>
+
+
+        <!-- Cart Details -->
+        <div class="overflow-y-auto max-h-36 pl-5 pr-5">
+          <div *ngFor="let item of order?.cartItems"
+               class="mb-2 border-gray-600  border-b pb-2 last:border-b-0">
+            <div class="flex justify-between text-lg ">
+              <span class="text-gray-700"> {{ item?.cartQuantity }}</span>
+              <span class="text-gray-700"> {{ item?.name }}</span>
+              <span class="font-medium text-gray-700">
+                  {{ item.price | currency:'ILS':'symbol':'1.2-2'  }}
+                </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="mt-auto pt-3 flex flex-col gap-2">
+          <h1 class="text-gray-800 font-semibold text-[3rem] text-center">
+            {{ order.totalAmount | currency:'ILS':'symbol':'1.2-2' }}
+          </h1>
+
+          <div class="grid grid-cols-2 mt-3 p-2 gap-2">
+            <button
+              (click)="cancelOrder(order.id)"
+              class=" px-3 py-2 text-white bg-red-600 rounded hover:bg-red-700 transition text-sm text-[2rem]">
+              ביטול
+            </button>
+            <button
+              [disabled]="order.status === 'confirmed'"
+              (click)="confirmOrder(order.id)"
+              class="w-full  px-3 py-2 text-white rounded transition text-[2rem]"
+              [ngClass]="{
+                      'bg-green-600 hover:bg-green-700': order.status !== 'confirmed',
+                      'bg-gray-300 text-gray-500 cursor-not-allowed': order.status === 'confirmed'
+                    }">
+              אישור
+            </button>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

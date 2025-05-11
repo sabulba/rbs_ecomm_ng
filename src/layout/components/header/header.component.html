@@ -1,0 +1,40 @@
+<header class="bg-gray-200 dark:bg-gray-900" dir="rtl">
+  <nav class="flex justify-between items-center px-4 py-3">
+    <!-- Logo on left -->
+    <div class="grid grid-cols-1 items-center space-x-4">
+      <div class="grid grid-cols-2 items-center">
+        <i class="fa-solid fa-arrow-right-from-bracket text-[2rem] text-white"
+           *ngIf="isLoggedIn"
+           (click)="setActive('logout');logOut();" ></i>
+        <img src="logo.png" alt="brand" class="w-12 h-12" />
+      </div>
+      <h6 dir="rtl" class="text-white">{{ displayName }}</h6>
+
+    </div>
+    <div  class="text-black dark:text-white text-[2rem] unde  rline mat-background-primary">{{pageName$ | async}}</div>
+    <!-- Menu icon on right -->
+    <div class="flex items-center space-x-4">
+      <ul class="hidden md:flex items-center  space-x-6">
+        <li  [ngClass]="{ 'bg-amber-900 p-2': activeMenu === 'menu' }"  (click)="setActive('menu')">
+          <a [routerLink]="['/']" class="text-black dark:text-white"><h2>תפריט</h2></a>
+        </li>
+        <li  [ngClass]="{ 'bg-amber-900 p-2': activeMenu === 'cart' }"   (click)="setActive('cart')">
+          <a [routerLink]="['/cart']" class="text-black dark:text-white"><h2>סל קניות</h2></a>
+        </li>
+        <li  [ngClass]="{ 'bg-amber-900 p-2': activeMenu === 'orders' }"   (click)="setActive('orders')">
+          <a [routerLink]="['/orders']" class="text-black dark:text-white"><h2>הזמנות</h2></a>
+        </li>
+        <li class="bg-amber-900 p-2"  [ngClass]="{ 'bg-amber-900 p-2': activeMenu === 'admin' }" (click)="setActive('admin')">
+          <a [routerLink]="['/admin/orders']"  class="text-black dark:text-white"><h2>ממשק ניהול</h2></a>
+        </li>
+      </ul>
+
+      <!-- Hamburger button on mobile -->
+      <button (click)="openMenu()" class="md:hidden text-black dark:text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+  </nav>
+</header>

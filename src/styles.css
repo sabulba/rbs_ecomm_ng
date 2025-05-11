@@ -1,1 +1,25 @@
 /* You can add global styles to this file, and also import other style files */
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
+
+@import "tailwindcss";
+.padding-top {
+  background-color: #101829;
+  color: white;
+}
+body {
+  overflow: hidden;
+}
+
+/* styles.css or inside global styles */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* Transparent background */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.3); /* Light thumb */
+  border-radius: 10px;
+}
