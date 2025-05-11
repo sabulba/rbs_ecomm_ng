@@ -25,3 +25,23 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+### GIT Commands:
+# 1. Make sure your local repository is up to date
+git pull origin main  # or replace 'main' with your default branch (e.g., 'master')
+
+# 2. Create a new branch and switch to it
+git checkout -b my-new-branch
+
+# 3. Add all changes to staging
+git add .
+
+# 4. Commit the changes with a message
+git commit -m "Added new feature/fixed issue"
+
+# 5. Push the new branch to the remote repository
+git push origin my-new-branch
+
+### DEPLOY to FIREBASE Commands:
+# 1.pnpm build
+# 2.firebase deploy

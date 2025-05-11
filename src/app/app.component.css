@@ -11,7 +11,7 @@
 /* Laptop (e.g., typical 13" and up) */
 @media screen and (min-width: 1200px) {
   .app-container {
-    grid-template-rows: 9vh 86.4vh;
+    grid-template-rows: 7vh 88.4vh;
   }
 }
 
