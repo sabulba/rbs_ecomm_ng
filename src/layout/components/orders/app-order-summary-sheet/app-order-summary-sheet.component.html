@@ -17,7 +17,7 @@
     סטטוס הזמנה:
     <span class="font-medium capitalize" [ngClass]="{
           'text-yellow-500': data?.orderStatus === 'pending',
-          'text-green-600': data?.orderStatus === 'confirmed',
+          'text-green-500': data?.orderStatus === 'confirmed',
           'text-red-500': data?.orderStatus === 'failed'
         }">
           {{ data?.orderStatus }}
