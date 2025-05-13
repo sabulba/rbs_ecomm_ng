@@ -5,6 +5,7 @@ import { AuthService } from '../../../shared/auth/auth.service';
 import { NgxBottomSheetService } from 'ngx-bottom-sheet';
 import {BottomMenuComponent} from "./bottom-menu/bottom-menu.component";
 import {filter, map, Observable, startWith} from "rxjs";
+import {LayoutService} from "../../../shared/layout/layout.service";
 
 
 @Component({
@@ -21,6 +22,7 @@ export class HeaderComponent implements OnInit {
   activeMenu: string = '';
   pageName$: Observable<string | null>;
 
+  logoUrl: string = '';
   private pageNameMap: { [path: string]: string } = {
     '/register': 'הרשמה',
     '/login': 'התחברות',
@@ -36,7 +38,8 @@ export class HeaderComponent implements OnInit {
   constructor(
     public authService: AuthService,
     private router: Router,
-    private bottomSheetService: NgxBottomSheetService
+    private bottomSheetService: NgxBottomSheetService,
+    private layoutService: LayoutService
   ) {
     this.pageName$ = this.router.events.pipe(
       filter((event): event is NavigationEnd => event instanceof NavigationEnd),
@@ -60,13 +63,21 @@ export class HeaderComponent implements OnInit {
       if (!this.isLoggedIn) {
         this.router.navigate(['/login']);
       }
+      // const config = JSON.parse(localStorage.getItem('firebaseConfig') || '{}');
+      // if (config.logo) {
+      //   this.layoutService.setLogo(config.logo);
+      //   this.logoUrl= config.logo;
+      // }
+      this.layoutService.logo$.subscribe((logo) => {
+        this.logoUrl = logo;
+      });
     });
+
   }
 
   openMenu() {
     this.bottomSheetService.open(BottomMenuComponent, {
       height: '40vh',
-
     });
   }
 

@@ -1,8 +1,8 @@
-import { Component,OnDestroy,OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 
 
 import {Router, RouterModule} from '@angular/router';
-import { Subscription } from 'rxjs';
+import {Subscription} from 'rxjs';
 import {Product} from "../../../models";
 import {CartService} from "../../../shared/cart/cart.service";
 import {CommonModule} from "@angular/common";
@@ -14,76 +14,82 @@ import {MatBottomSheet, MatBottomSheetModule} from "@angular/material/bottom-she
   standalone: true,
   selector: 'app-cart',
   templateUrl: './cart.component.html',
-  imports: [RouterModule, CommonModule, MatBottomSheetModule ,CartItemComponent, OrderSummarySheetComponent ,],
+  imports: [RouterModule, CommonModule, MatBottomSheetModule, CartItemComponent, OrderSummarySheetComponent,],
   styles: [
     `
-    /* hide scrollbar */
-  ::-webkit-scrollbar {
-    width: 0px;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: rgba(136, 136, 136, 0.281);
-  }
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: #555;
-  }
+      /* hide scrollbar */
+      ::-webkit-scrollbar {
+        width: 0px;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: rgba(136, 136, 136, 0.281);
+      }
+
+      /* Handle on hover */
+      ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }
     `
   ]
 })
-export class CartComponent implements OnInit, OnDestroy{
-  cart:Product[]|any=[];
-  total!:number;
-  gstAmount!:number;
-  estimatedTotal!:number;
-  gstRate=0.18;
-  shippingCost=0;
-  subsTotal!:Subscription;
-  subsGST!:Subscription;
-  subsEstimatedTotal!:Subscription;
-  showStatus=false;
-  constructor(private cartService:CartService,private router:Router ,
+export class CartComponent implements OnInit, OnDestroy {
+  cart: Product[] | any = [];
+  total!: number;
+  gstAmount!: number;
+  estimatedTotal!: number;
+  gstRate = 0.18;
+  shippingCost = 0;
+  subsTotal!: Subscription;
+  subsGST!: Subscription;
+  subsEstimatedTotal!: Subscription;
+  showStatus = false;
+
+  constructor(public cartService: CartService, private router: Router,
               private bottomSheet: MatBottomSheet
-              ){}
+  ) {
+  }
 
   ngOnInit(): void {
     this.getCart();
     this.getTotal();
   }
 
-  getCart(){
+  getCart() {
     this.cartService.products.subscribe((products) => {
       this.cart = products;
     });
   }
-  getTotal(){
-    this.total=this.cartService.getTotal();
-    this.subsTotal=this.cartService.totalAmount.subscribe(data=>this.total=parseInt(data.toFixed(2)));
-    this.subsGST=this.cartService.gstAmount.subscribe(data=>this.gstAmount=parseInt(data.toFixed(2)));
-    this.subsEstimatedTotal=this.cartService.estimatedTotal.subscribe(data=>this.estimatedTotal=parseInt(data.toFixed(2)));
+
+  getTotal() {
+    this.total = this.cartService.getTotal();
+    this.subsTotal = this.cartService.totalAmount.subscribe(data => this.total = parseInt(data.toFixed(2)));
+    this.subsGST = this.cartService.gstAmount.subscribe(data => this.gstAmount = parseInt(data.toFixed(2)));
+    this.subsEstimatedTotal = this.cartService.estimatedTotal.subscribe(data => this.estimatedTotal = parseInt(data.toFixed(2)));
   }
-  saveOrder(){
+
+  saveOrder() {
     const bottomSheetRef = this.bottomSheet.open(OrderSummarySheetComponent, {
       height: '40vh',
-      data: {user:JSON.parse(localStorage.getItem('currentUser') || ''),
+      data: {
+        user: JSON.parse(localStorage.getItem('currentUser') || ''),
         cart: this.cart,
         total: this.total,
-        orderStatus: 'Pending',},
+        orderStatus: 'Pending',
+      },
     });
 
     bottomSheetRef.afterDismissed().subscribe((result) => {
-      if (result === 'confirmed') {
-        this.cartService.saveNewOrderFromCartToFireBase();
-        this.clearCart();
-      }
-      // if canceled, do nothing
+      if (this.cartService.isLoading) return; // prevent duplicate
+      this.cartService.saveNewOrderFromCartToFireBase();
     });
   }
-  goToCheckout(){
+
+  goToCheckout() {
     this.router.navigate(['/checkout']);
   }
 
-  unsubscribeSubject(){
+  unsubscribeSubject() {
     this.subsTotal.unsubscribe();
     this.subsGST.unsubscribe();
     this.subsEstimatedTotal.unsubscribe();
@@ -93,7 +99,19 @@ export class CartComponent implements OnInit, OnDestroy{
     this.unsubscribeSubject();
   }
 
-  clearCart(){
+  clearCart() {
     this.cartService.clearCart();
+  }
+
+  openPaymentSheet() {
+
+  }
+
+  openManualPaymentSheet() {
+
+  }
+
+  openCancelOrderSheet() {
+
   }
 }

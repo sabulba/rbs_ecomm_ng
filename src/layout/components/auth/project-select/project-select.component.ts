@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Project } from '../../../../models/project';
 import { FirebaseService } from '../../../../shared/firebase/firebase.service';
 import { FormsModule } from '@angular/forms';
+import {LayoutService} from "../../../../shared/layout/layout.service";
 
 @Component({
   selector: 'app-project-select',
@@ -17,7 +18,7 @@ export class ProjectSelectComponent implements OnInit {
   allProjects: Project[] = [];
   selectedProjectId = '';
 
-  constructor(private firebaseService: FirebaseService) {}
+  constructor(private firebaseService: FirebaseService , private layoutService:LayoutService) {}
 
   async ngOnInit() {
     this.allProjects = await this.firebaseService.getDocuments('project-list');

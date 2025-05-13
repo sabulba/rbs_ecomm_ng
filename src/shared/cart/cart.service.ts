@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import {BehaviorSubject, take} from 'rxjs';
 import { Product } from '../../models';
 import { FirebaseService } from '../firebase/firebase.service';
 import { addDoc, collection } from '@angular/fire/firestore';
@@ -92,7 +92,9 @@ export class CartService {
       const storedCart = JSON.parse(localStorage.getItem('cart') || '[]');
       if (Array.isArray(storedCart)) {
         this.cart = storedCart;
-        this.saveCart();
+        this.products.next([...this.cart]); // emit cart without calling saveCart
+        this.updateProductCounts();
+        this.getTotal();
       }
     } catch (e) {
       console.error('Error restoring cart from storage:', e);
@@ -127,22 +129,37 @@ export class CartService {
       lastName: this.user?.lastName || '',
       date: new Date().toISOString(),
     };
+    this.firebaseService.getNewFirestore$()
+      .pipe(take(1))
+      .subscribe(async (firestore) => {
+        if (!firestore) return;
+        try {
+          this.isLoading = true;
+          const ordersCollection = collection(firestore, 'orders');
+          await addDoc(ordersCollection, orderData);
+        } catch (error) {
+          console.error('Error saving order:', error);
+        } finally {
+          this.isLoading = false;
+        }
+      });
 
-    this.firebaseService.getNewFirestore$().subscribe(async (firestore) => {
-      if (!firestore) return;
-      try {
-        this.isLoading = true;
-        const ordersCollection = collection(firestore, 'orders');
-        await addDoc(ordersCollection, orderData);
-        // Optional: clear cart
-        // this.cart = [];
-        // this.saveCart();
-      } catch (error) {
-        console.error('Error saving order:', error);
-      } finally {
-        this.isLoading = false;
-      }
-    });
+    // this.firebaseService.getNewFirestore$().subscribe(async (firestore) => {
+    //   if (!firestore) return;
+    //   try {
+    //     this.isLoading = true;
+    //     const ordersCollection = collection(firestore, 'orders');
+    //     await addDoc(ordersCollection, orderData);
+    //     // Optional: clear cart
+    //     // this.cart = [];
+    //     // this.saveCart();
+    //   } catch (error) {
+    //     console.error('Error saving order:', error);
+    //   } finally {
+    //     this.isLoading = false;
+    //   }
+    // });
+
   }
 
   private convertProduct(product: Product): any {

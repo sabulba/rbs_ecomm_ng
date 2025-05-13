@@ -3,6 +3,9 @@ import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} fr
 import {AuthService} from "../../shared/auth/auth.service";
 import {Router, RouterModule} from "@angular/router";
 import {FirebaseService} from "../../shared/firebase/firebase.service";
+import {from, Observable} from "rxjs";
+import {doc, getDoc} from "@angular/fire/firestore";
+import {LayoutService} from "../../shared/layout/layout.service";
 
 
 
@@ -17,11 +20,12 @@ import {FirebaseService} from "../../shared/firebase/firebase.service";
 export class LoginComponent implements OnInit  {
   isLogin=false;
   loginForm!:FormGroup;
-  constructor(private router:Router,private formBuilder:FormBuilder, private authService:AuthService ,private fbService:FirebaseService){
+  constructor(private router:Router,private formBuilder:FormBuilder, private authService:AuthService ,private fbService:FirebaseService , private layoutService:LayoutService) {
     this.loginForm=this.formBuilder.group({
       email:new FormControl('',[Validators.required,Validators.email]),
       password:new FormControl('',[Validators.required,Validators.min(6),Validators.max(16)])
     })
+
   }
 
   ngOnInit(): void {
@@ -50,6 +54,7 @@ export class LoginComponent implements OnInit  {
   async switchToUserApplication(userId: string) {
     await this.fbService.switchToUserApplication(userId).then(() => {
       localStorage.setItem('isLogged', 'true');
+      this.layoutService.setLogo(JSON.parse(localStorage.getItem('firebaseConfig')!).logo);
       this.router.navigate(['/']);
     }, (error) => {
       console.error('Error switching to user application:', error);

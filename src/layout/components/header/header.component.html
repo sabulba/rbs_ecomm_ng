@@ -3,15 +3,15 @@
     <!-- Logo on left -->
     <div class="grid grid-cols-1 items-center space-x-4">
       <div class="grid grid-cols-2 items-center">
-        <i class="fa-solid fa-arrow-right-from-bracket text-[2rem] text-white"
-           *ngIf="isLoggedIn"
-           (click)="setActive('logout');logOut();" ></i>
-        <img src="logo.png" alt="brand" class="w-12 h-12" />
+        <div  (click)="setActive('logout');logOut();">
+          <i class="fa-solid fa-arrow-right-from-bracket text-[2rem] text-white" *ngIf="isLoggedIn"></i>
+        </div>
+        <img [src]="logoUrl" alt="brand" class="w-12 h-12" />
       </div>
       <h6 dir="rtl" class="text-white">{{ displayName }}</h6>
 
     </div>
-    <div  class="mr-[22rem] text-black dark:text-white text-[2rem] unde  rline mat-background-primary">{{pageName$ | async}}</div>
+    <div  class="mr-0 md:mr-[22rem]  text-black dark:text-white text-[2rem] unde  rline mat-background-primary">{{pageName$ | async}}</div>
     <!-- Menu icon on right -->
     <div class="flex items-center space-x-4">
       <ul class="hidden md:flex items-center  space-x-6">

@@ -1,10 +1,11 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {FirebaseService} from "../../shared/firebase/firebase.service";
-import {collection, Firestore, getDocs} from "@angular/fire/firestore";
+import {collection, doc, Firestore, getDoc, getDocs} from "@angular/fire/firestore";
 import {CommonModule} from "@angular/common";
 import {CartService} from "../../shared/cart/cart.service";
 import {Router} from "@angular/router";
-import {filter, firstValueFrom} from "rxjs";
+import {filter, firstValueFrom, from, Observable} from "rxjs";
+import {LayoutService} from "../../shared/layout/layout.service";
 
 @Component({
   selector: 'app-home',
@@ -20,7 +21,7 @@ export class HomeComponent implements OnInit  {
   isLoading = true;
   firestore!: Firestore;
   productCounts: { [id: string]: number } = {};
-  constructor(private firebaseService: FirebaseService ,private cartService:CartService ,private cdRef: ChangeDetectorRef) {}
+  constructor(private firebaseService: FirebaseService ,private cartService:CartService ,private cdRef: ChangeDetectorRef , private layoutService:LayoutService) {}
   async ngOnInit() {
     try {
       this.isLoading = true;
@@ -29,6 +30,7 @@ export class HomeComponent implements OnInit  {
       this.firestore = await firstValueFrom(
         this.firebaseService.getNewFirestore$().pipe(filter((f) => !!f))
       ) as Firestore;
+
       await this.fetchProducts();
       this.cartService.productCounts$.subscribe(counts => {
         this.productCounts = counts;
@@ -62,22 +64,4 @@ export class HomeComponent implements OnInit  {
     }));
   }
 }
-/*
-    id:number;
-    title:string;
-    description: string;
-    category: string;
-    type: string;
-    sizes?: string[];
-    size?:string;
-    images: string[];
-    stock: string;
-    price: number;
-    prevprice:number;
-    qty?:number;
-    discount?:number;
-    totalprice?:number;
-    rating: {
-      rate: number;
-      count: number;
-    }*/
+

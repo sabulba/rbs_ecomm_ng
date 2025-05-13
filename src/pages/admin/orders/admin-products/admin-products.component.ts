@@ -99,7 +99,7 @@ export class AdminProductsComponent implements OnInit {
 
   createProduct() {
     const ref = this.dialog.open(ProductDialogComponent, {
-      data: { mode: 'create' },
+      data: { mode: 'create' ,  storage: this.firebaseService.getStorageInstance()},
     });
 
     ref.afterClosed().subscribe(async (result: any) => {//Partial<Product>
