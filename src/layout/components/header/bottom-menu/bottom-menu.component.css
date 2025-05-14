@@ -32,6 +32,10 @@
   font-weight: bold;
   color: white;
 }
+::ng-deep .ngx-bottom-sheet{
+  overflow: hidden!important;
+}
+
 
 
 

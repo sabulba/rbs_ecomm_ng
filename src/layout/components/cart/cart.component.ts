@@ -70,7 +70,7 @@ export class CartComponent implements OnInit, OnDestroy {
 
   saveOrder() {
     const bottomSheetRef = this.bottomSheet.open(OrderSummarySheetComponent, {
-      height: '40vh',
+      height: '60vh',
       data: {
         user: JSON.parse(localStorage.getItem('currentUser') || ''),
         cart: this.cart,
@@ -80,7 +80,7 @@ export class CartComponent implements OnInit, OnDestroy {
     });
 
     bottomSheetRef.afterDismissed().subscribe((result) => {
-      if (this.cartService.isLoading) return; // prevent duplicate
+      if (!result || result === 'canceled') return; // prevent duplicate
       this.cartService.saveNewOrderFromCartToFireBase();
     });
   }
@@ -103,15 +103,15 @@ export class CartComponent implements OnInit, OnDestroy {
     this.cartService.clearCart();
   }
 
-  openPaymentSheet() {
-
-  }
-
   openManualPaymentSheet() {
 
   }
 
   openCancelOrderSheet() {
 
+  }
+
+  goBack() {
+    window.history.back();
   }
 }

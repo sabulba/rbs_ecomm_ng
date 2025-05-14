@@ -3,14 +3,14 @@ import {FirebaseService} from "../../shared/firebase/firebase.service";
 import {collection, doc, Firestore, getDoc, getDocs} from "@angular/fire/firestore";
 import {CommonModule} from "@angular/common";
 import {CartService} from "../../shared/cart/cart.service";
-import {Router} from "@angular/router";
+import {Router, RouterModule} from "@angular/router";
 import {filter, firstValueFrom, from, Observable} from "rxjs";
 import {LayoutService} from "../../shared/layout/layout.service";
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [RouterModule, CommonModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -21,6 +21,7 @@ export class HomeComponent implements OnInit  {
   isLoading = true;
   firestore!: Firestore;
   productCounts: { [id: string]: number } = {};
+  cartCounter:number = 0;
   constructor(private firebaseService: FirebaseService ,private cartService:CartService ,private cdRef: ChangeDetectorRef , private layoutService:LayoutService) {}
   async ngOnInit() {
     try {
@@ -34,6 +35,7 @@ export class HomeComponent implements OnInit  {
       await this.fetchProducts();
       this.cartService.productCounts$.subscribe(counts => {
         this.productCounts = counts;
+        this.cartCounter = Object.values(this.productCounts).reduce((acc, count) => acc + count, 0);
         this.cdRef.markForCheck();
       });
     } catch (error) {
@@ -54,6 +56,7 @@ export class HomeComponent implements OnInit  {
       category: product.category,
     };
     this.cartService.add(p);
+    this.cartCounter = Object.values(this.productCounts).reduce((acc, count) => acc + count, 0);
   }
 
   private async fetchProducts() {
@@ -62,6 +65,7 @@ export class HomeComponent implements OnInit  {
       id: doc.id,
       ...doc.data()
     }));
+    this.cartCounter = Object.values(this.productCounts).reduce((acc, count) => acc + count, 0);
   }
 }
 

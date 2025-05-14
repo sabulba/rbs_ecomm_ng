@@ -1,8 +1,7 @@
-<div class="w-[90vw] max-h-[80vh] p-6 grid grid-cols-[15%_85%] gap-3">
+<div class="w-[90vw] max-h-[80vh] p-3 grid grid-rows-[85%_15%] md:grid-cols-[15%_85%] gap-3 py-15">
   <!-- Filter Controls -->
-  <div class="grid grid-rows-[10% 10% 30% 20%] gap-1 h-30 ">
+  <div class="hidden md:grid grid-rows-[10% 10% 30% 20%] gap-1 h-30 ">
     <!-- Status Filter -->
-
     <button
       class="px-4 py-2 rounded text-sm font-medium
              row-start-1 col-start-1 w-full"
@@ -24,7 +23,6 @@
     </button>
 
     <!-- Month Filter -->
-
     <h5 class="px-4 py-2  text-sm text-end font-medium
              row-start-3 col-start-1 w-full">סינון חודשי</h5>
 
@@ -35,7 +33,7 @@
   </div>
 
   <!-- Orders List -->
-  <div class="overflow-y-scroll h-[74rem] pr-8 pb-[22rem] lg:pb-[25rem]">
+  <div class="overflow-y-scroll h-[54rem] md:h-[74rem] pr-1 pb-[22rem] lg:pb-[25rem]">
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
       <div *ngFor="let order of filteredOrders"
            class="bg-white border border-blue-200 rounded-xl p-0 shadow-sm hover:shadow-md
@@ -94,4 +92,41 @@
       </div>
     </div>
   </div>
+  <!-- Tabs at the bottom of the page -->
+  <div
+    class="md:hidden grid grid-cols-3 fixed bottom-0 left-0 w-full bg-gray-900 text-white shadow-lg border-t border-gray-300 z-50">
+    <button class="flex flex-col items-center justify-center py-2 w-full" (click)="selectMonth()">
+      <i class="fas fa-filter text-xl"></i>
+      <span class="text-sm mt-1">סינון חודשי</span>
+    </button>
+    <button class="flex flex-col items-center justify-center py-2 w-full" (click)="onStatusChange('confirmed')">
+      <i class="fas fa-check-circle text-xl"></i>
+      <span class="text-sm mt-1">מטופלות</span>
+    </button>
+    <button class="flex flex-col items-center justify-center py-2 w-full" (click)="onStatusChange('pending')">
+      <i class="fa-solid fa-hourglass-half text-xl"></i>
+      <span class="text-sm mt-1">ממתינות</span>
+    </button>
+  </div>
 </div>
+<!--
+<button
+  class="px-4 py-2 rounded text-sm font-medium
+             row-start-1 col-start-1 w-full"
+  [ngClass]="{
+          'bg-yellow-600 text-white': selectedStatus === 'pending',
+          'bg-gray-200 text-gray-700': selectedStatus !== 'pending'
+        }"
+  (click)="onStatusChange('pending')">ממתין
+</button>
+
+<button
+  class="px-4 py-2 rounded text-sm font-medium
+             row-start-2 col-start-1 w-full"
+  [ngClass]="{
+          'bg-green-600 text-white': selectedStatus === 'confirmed',
+          'bg-gray-200 text-gray-700': selectedStatus !== 'confirmed'
+        }"
+  (click)="onStatusChange('confirmed')">בוצע
+</button>
+-->

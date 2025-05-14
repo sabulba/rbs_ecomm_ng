@@ -1,11 +1,8 @@
-<header class="bg-gray-200 dark:bg-gray-900" dir="rtl">
+<header class="bg-gray-200 dark:bg-gray-900 rtl">
   <nav class="flex justify-between items-center px-4 py-3">
     <!-- Logo on left -->
-    <div class="grid grid-cols-1 items-center space-x-4">
+    <div class="grid grid-cols-1 items-center justify-items-start space-x-4">
       <div class="grid grid-cols-2 items-center">
-        <div  (click)="setActive('logout');logOut();">
-          <i class="fa-solid fa-arrow-right-from-bracket text-[2rem] text-white" *ngIf="isLoggedIn"></i>
-        </div>
         <img [src]="logoUrl" alt="brand" class="w-12 h-12" />
       </div>
       <h6 dir="rtl" class="text-white">{{ displayName }}</h6>
@@ -14,7 +11,7 @@
     <div  class="mr-0 md:mr-[22rem]  text-black dark:text-white text-[2rem] unde  rline mat-background-primary">{{pageName$ | async}}</div>
     <!-- Menu icon on right -->
     <div class="flex items-center space-x-4">
-      <ul class="hidden md:flex items-center  space-x-6">
+      <ul class="hidden md:flex items-center  space-x-7">
         <li  [ngClass]="{ 'bg-amber-900 p-2': activeMenu === 'menu' }"  (click)="setActive('menu')">
           <a [routerLink]="['/']" class="text-black dark:text-white"><h2>תפריט</h2></a>
         </li>
@@ -29,12 +26,14 @@
         </li>
       </ul>
 
-      <!-- Hamburger button on mobile -->
-      <button (click)="openMenu()" class="md:hidden text-black dark:text-white">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-      </button>
+      <div class="flex md:hidden items-center space-x-4">
+
+        <button (click)="openMenu()" class="text-black dark:text-white">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
     </div>
   </nav>
 </header>

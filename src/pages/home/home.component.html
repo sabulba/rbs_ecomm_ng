@@ -31,6 +31,19 @@
         </button>
       </div>
   </div>
+  <!-- FAB Cart Button -->
+  <a [routerLink]="['/cart']" >
+    <button
+      class="fixed bottom-5 md:mb-10 right-5 z-50 bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-full shadow-lg transition duration-300">
+        <i class="fa-solid fa-cart-shopping text-xl"></i>
+
+        <!-- Badge -->
+        <span *ngIf="cartCounter > 0"
+          class="absolute -top-2 -right-2 bg-red-600 text-xs w-5 h-5 rounded-full flex items-center justify-center">
+        {{ cartCounter }}
+      </span>
+      </button>
+  </a>
 </div>
 
 <!-- Loader -->

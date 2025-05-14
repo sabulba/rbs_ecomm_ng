@@ -109,4 +109,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
     }
   }
 
+  selectMonth() {
+
+  }
 }

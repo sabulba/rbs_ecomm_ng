@@ -1,9 +1,10 @@
 <div class="bottom-sheet-container bg-gray-900">
+  <div class="h-[1rem] relative bottom-[3rem] text-center text-white  text-[1.5rem]" >  תפריט</div>
   <!-- Menu Items -->
   <ul class="flex flex-col items-center gap-6">
     <li>
       <a (click)="close()" [routerLink]="['/']">
-        <h2>תפריט</h2>
+        <h2>מוצרים</h2>
       </a>
     </li>
     <li>
@@ -19,6 +20,11 @@
     <li>
       <a (click)="close()" [routerLink]="['/admin/orders']">
         <h2>ממשק ניהול</h2>
+      </a>
+    </li>
+    <li>
+      <a (click)="logOut();close()" [routerLink]="['/']">
+        <h2>יציאה</h2>
       </a>
     </li>
   </ul>

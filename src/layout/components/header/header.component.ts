@@ -77,7 +77,9 @@ export class HeaderComponent implements OnInit {
 
   openMenu() {
     this.bottomSheetService.open(BottomMenuComponent, {
-      height: '40vh',
+      height: '45vh',borderRadius: '20px',
+      showCloseButton:true,
+      closeOnBackdropClick:true,
     });
   }
 
@@ -89,4 +91,5 @@ export class HeaderComponent implements OnInit {
   setActive(menu: string) {
     this.activeMenu = menu;
   }
+
 }
