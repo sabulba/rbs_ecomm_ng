@@ -12,4 +12,5 @@ export interface Order {
   totalAmount: number;
   status: 'pending' | 'confirmed';
   date: Date;
+  remark:string
 }

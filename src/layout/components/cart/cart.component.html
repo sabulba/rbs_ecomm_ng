@@ -26,9 +26,9 @@
     </section>
   </ng-template>
 
-  <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-6 w-[90vw] h-full" *ngIf="cart.length>0; else empty">
+  <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-6 w-[90vw] h-full md:w-[50vw]" *ngIf="cart.length>0; else empty">
     <article class="col-span-1 md:col-span-2 lg:col-span-2 ">
-      <div class="border-y-2 border-gray-300 overflow-y-auto max-h-[67vh] md:max-h-[550px] p-2">
+      <div class="grid gap-3 border-y-2 border-gray-300 overflow-y-auto max-h-[67vh] md:max-h-[550px] p-2">
         <app-cartitem
           *ngFor="let item of cart"
           [item]="item"

@@ -119,15 +119,17 @@ export class CartService {
     return total;
   }
 
-  public saveNewOrderFromCartToFireBase(): void {
+  public saveNewOrderFromCartToFireBase(user?: any , remark?: string): void {
+    this.firebaseService.initFromLocalStorage();
     const orderData = {
       cartItems: this.cart.map((p) => this.convertProduct(p)),
       totalAmount: this.totalAmount.value,
       status: 'pending',
-      email: this.user?.email || '',
-      firstName: this.user?.firstName || '',
-      lastName: this.user?.lastName || '',
+      email:     user?.email     || this.user?.email     || '',
+      firstName: user?.firstName || this.user?.firstName || '',
+      lastName:  user?.lastName  || this.user?.lastName  || '',
       date: new Date().toISOString(),
+      remark:  remark || '',
     };
     this.firebaseService.getNewFirestore$()
       .pipe(take(1))
@@ -143,23 +145,6 @@ export class CartService {
           this.isLoading = false;
         }
       });
-
-    // this.firebaseService.getNewFirestore$().subscribe(async (firestore) => {
-    //   if (!firestore) return;
-    //   try {
-    //     this.isLoading = true;
-    //     const ordersCollection = collection(firestore, 'orders');
-    //     await addDoc(ordersCollection, orderData);
-    //     // Optional: clear cart
-    //     // this.cart = [];
-    //     // this.saveCart();
-    //   } catch (error) {
-    //     console.error('Error saving order:', error);
-    //   } finally {
-    //     this.isLoading = false;
-    //   }
-    // });
-
   }
 
   private convertProduct(product: Product): any {

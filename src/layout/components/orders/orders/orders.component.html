@@ -40,11 +40,14 @@
           transition duration-300 flex flex-col justify-between">
 
         <!-- Header -->
-        <div class="p-2 text-[2rem] font-bold text-gray-800 mb-2 text-center bg-gray-800 text-white
-                        grid grid-cols-[84%_15%] items-center justify-items-center">
-          <span
-            class=" text-[2rem] font-bold text-gray-800 mb-2 text-center bg-gray-800 text-white"> {{ order?.firstName + " " + order?.lastName}}</span>
-          <i class="fa-solid mr-2 text-[2rem] justify-end"
+
+        <div class="h-[6rem] text-[2rem] font-bold text-gray-800 mb-2 text-center bg-gray-800 text-white
+                    grid grid-cols-[84%_15%] items-start justify-items-center">
+          <div class="grid grid-rows-2">
+            <span class=" text-[2rem] font-bold text-gray-800 mb-2 text-center bg-gray-800 text-white"> {{ order?.firstName + " " + order?.lastName}} </span>
+            <span class="text-[14px] text-white" *ngIf="order?.remark?.trim()">[{{order?.remark}}]</span>
+          </div>
+          <i class="fa-solid mr-2 text-[2rem] justify-end mt-5"
              [ngClass]="selectedStatus === 'pending' ? 'fa-hourglass-half text-yellow-500':'fa-check text-green-500'"></i>
         </div>
 

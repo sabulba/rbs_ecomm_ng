@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "build",
+    "public": "dist/rbs_com/browser",
     "ignore": [
       "firebase.json",
       "**/.*",

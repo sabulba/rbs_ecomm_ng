@@ -8,7 +8,9 @@ import {CartService} from "../../../shared/cart/cart.service";
 import {CommonModule} from "@angular/common";
 import {CartItemComponent} from "./cartitem/cartitem.component";
 import {OrderSummarySheetComponent} from "../orders/app-order-summary-sheet/app-order-summary-sheet.component";
+import {AppOrderManualSheetComponent} from "../orders/app-order-manual-sheet/app-order-manual-sheet.component";
 import {MatBottomSheet, MatBottomSheetModule} from "@angular/material/bottom-sheet";
+import {FirebaseService} from "../../../shared/firebase/firebase.service";
 
 @Component({
   standalone: true,
@@ -45,11 +47,9 @@ export class CartComponent implements OnInit, OnDestroy {
   subsEstimatedTotal!: Subscription;
   showStatus = false;
 
-  constructor(public cartService: CartService, private router: Router,
-              private bottomSheet: MatBottomSheet
-  ) {
-  }
-
+  constructor(public cartService: CartService,
+              private router: Router,
+              private bottomSheet: MatBottomSheet) {}
   ngOnInit(): void {
     this.getCart();
     this.getTotal();
@@ -104,7 +104,20 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   openManualPaymentSheet() {
+    const bottomSheetRef = this.bottomSheet.open(AppOrderManualSheetComponent, {
+      height: '68vh',
+      data: {
+        user: JSON.parse(localStorage.getItem('currentUser') || ''),
+        cart: this.cart,
+        total: this.total,
+        orderStatus: 'Pending',
+      },
+    });
 
+    bottomSheetRef.afterDismissed().subscribe((result) => {
+      if (!result || result.status === 'canceled') return; // prevent duplicate
+      this.cartService.saveNewOrderFromCartToFireBase(result.user ,result.remark);
+    });
   }
 
   openCancelOrderSheet() {

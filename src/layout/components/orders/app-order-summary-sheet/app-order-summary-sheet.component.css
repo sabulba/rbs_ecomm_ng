@@ -28,5 +28,6 @@ button {
   margin-top: 1.5rem;
   width: 100%;
 }
-
-
+::ng-deep .mat-bottom-sheet-container{
+  background: transparent !important;
+}

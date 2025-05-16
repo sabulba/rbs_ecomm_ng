@@ -1,0 +1,35 @@
+.remark {
+  margin-top: 1rem;
+  direction: rtl;
+}
+
+.remark input {
+  width: 100%;
+  font-size: 1.5rem;
+  padding: 0.5rem;
+}
+
+mat-option {
+  font-size: 1.4rem;
+  padding: 1rem;
+}
+
+mat-label,
+input[matInput] {
+  font-size: 1.4rem;
+}
+::ng-deep mat-form-field.mat-form-field {
+  padding-top: 1.6em !important; /* יותר מקום ל-label */
+}
+
+::ng-deep .mat-form-field-wrapper {
+  padding-top: 2.6em !important;
+}
+
+::ng-deep .mat-form-field-label {
+  top: 1.2em !important;
+  font-size: 1.3rem !important;
+}
+::ng-deep .mat-bottom-sheet-container{
+  background: transparent !important;
+}

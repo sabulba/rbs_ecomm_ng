@@ -1,4 +1,5 @@
 <!--<h6>{{item | json}}</h6>-->
+<!--
 <div dir="rtl"  class="grid grid-cols-3 lg:grid-cols-5 bg-white gap-2 border-b-2 p-2">
   <div class="col-span-1 lg:col-span-1">
     <div class="relative flex flex-row justify-between mx-auto md:flex-col max-w-25 ">
@@ -47,4 +48,62 @@
       </button>
     </div>
   </div>
+</div>
+-->
+<div dir="rtl" class="grid grid-cols-1 sm:grid-cols-[1fr_auto] bg-white border-b-2 p-4 gap-4 items-start">
+
+  <!-- תוכן: כותרת, מחיר, פרטים נוספים -->
+  <div class="grid grid-rows-[auto_auto_1fr_auto] gap-2 text-right">
+
+    <div class="grid  grid-cols-[70%_auto]">
+      <div class="grid-row-1 grid-column-1 ">
+          <!-- שם מוצר -->
+          <p class=" col-span-2 text-[2rem] font-bold text-gray-800 line-clamp-2" [title]="item?.title">
+            {{ item?.title }}
+          </p>
+
+          <!-- מחיר -->
+          <p class="text-green-700 text-[2rem] font-semibold">
+            {{ item?.totalprice | currency : 'ILS' }}
+          </p>
+      </div>
+      <!-- תמונה -->
+      <div class="grid-row-1 grid-column-2 justify-self-center sm:justify-self-end">
+        <img class="rounded-full w-[6rem] h-[6rem] object-cover"
+             [src]="item?.images || 'beer.png'"
+             [alt]="item?.title || ''" />
+      </div>
+    </div>
+
+    <!-- מידע נוסף -->
+    <div class="text-sm text-gray-700">
+      <p *ngIf="item?.size">גודל: {{ item?.size }}</p>
+      <p>
+        <span class="mr-2">{{ item?.type }}</span>
+        <span class="font-semibold text-green-700" *ngIf="item?.stock == 'In stock'">{{ item?.stock }}</span>
+        <span class="font-semibold text-yellow-700" *ngIf="item?.stock == 'Out of stock'">{{ item?.stock }}</span>
+      </p>
+    </div>
+
+    <!-- שורת כפתורים אחידה -->
+    <div class="grid auto-cols-auto grid-flow-col w-[45%] items-center gap-2 mt-2">
+      <!-- כמות -->
+      <button class="px-3 py-1 bg-gray-800 text-white" aria-label="less quantity" (click)="lessQty(item)">
+        <i class="fa-solid fa-minus"></i>
+      </button>
+      <span class="text-center">{{ item?.qty }}</span>
+      <button class="px-3 py-1 bg-gray-800 text-white" aria-label="add quantity" (click)="addQty(item)">
+        <i class="fa-solid fa-plus"></i>
+      </button>
+
+      <!-- כפתורי פעולה -->
+      <button class="px-3 py-1 bg-gray-300 font-semibold whitespace-nowrap" (click)="removeFromCart(item)">
+        <i class="fa-solid fa-trash"></i> הסרה
+      </button>
+      <button class="px-3 py-1 bg-gray-300 font-semibold whitespace-nowrap">
+        <i class="fa-solid fa-heart"></i> שמירה
+      </button>
+    </div>
+  </div>
+
 </div>

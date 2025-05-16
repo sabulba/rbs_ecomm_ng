@@ -2,16 +2,19 @@
   <nav class="flex justify-between items-center px-4 py-3">
     <!-- Logo on left -->
     <div class="grid grid-cols-1 items-center justify-items-start space-x-4">
-      <div class="grid grid-cols-2 items-center">
-        <img [src]="logoUrl" alt="brand" class="w-12 h-12" />
+      <div class="grid grid-cols-[45%_auto] w-[7rem]">
+          <button *ngIf="isLoggedIn" (click)="logOut()" class="text-black dark:text-white hover:text-red-600 text-xl" title="יציאה">
+            <i class="fas fa-right-from-bracket  rotate-180 cursor-pointer"></i>
+          </button>
+          <img [src]="logoUrl" alt="brand" class="w-12 h-12" *ngIf="logoUrl || logoUrl!==''" [routerLink]="['/']" />
       </div>
       <h6 dir="rtl" class="text-white">{{ displayName }}</h6>
 
     </div>
-    <div  class="mr-0 md:mr-[22rem]  text-black dark:text-white text-[2rem] unde  rline mat-background-primary">{{pageName$ | async}}</div>
+    <div  class="mr-0  text-black dark:text-white text-[2rem] unde  rline mat-background-primary">{{pageName$ | async}}</div>
     <!-- Menu icon on right -->
     <div class="flex items-center space-x-4">
-      <ul class="hidden md:flex items-center  space-x-7">
+      <ul class="hidden md:flex items-center  space-x-7 gap-5">
         <li  [ngClass]="{ 'bg-amber-900 p-2': activeMenu === 'menu' }"  (click)="setActive('menu')">
           <a [routerLink]="['/']" class="text-black dark:text-white"><h2>תפריט</h2></a>
         </li>

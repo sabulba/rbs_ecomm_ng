@@ -1,0 +1,65 @@
+<div class="bg-gray-200 dark:bg-gray-900 rounded-2xl text-[1.3rem] p-5  rtl">
+  <h1 class="text-[2rem] text-center w-full mb-4 text-white ">חיוב ידני</h1>
+
+  <mat-form-field appearance="fill" class="w-full h-fit" dir="rtl">
+    <mat-label>חיפוש חבר - מספר חשבון</mat-label>
+    <div class="grid grid-cols-[auto_12%] items-center justify-center w-fit">
+      <input
+        type="text"
+        placeholder="כתוב שם או מספר חשבון"
+        aria-label="חיפוש חבר"
+        matInput
+        [formControl]="searchControl"
+        [matAutocomplete]="auto"
+      />
+      <button
+        *ngIf="searchControl.value"
+        (click)="clearSearch()"
+        aria-label="Clear search"
+        class="bg-gray-300 rounded-full w-8 h-8 hover:bg-gray-400 focus:outline-none">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  </mat-form-field>
+
+  <mat-autocomplete
+    #auto="matAutocomplete"
+    [displayWith]="displayUser"
+    (optionSelected)="selectUser($event.option.value)" >
+    <mat-option *ngFor="let user of filteredUsers" [value]="user">
+      {{ user?.firstName }} {{ user?.lastName }} - {{ user?.accountNumber }}
+    </mat-option>
+  </mat-autocomplete>
+
+  <mat-form-field appearance="fill" class="w-full h-fit" dir="rtl">
+    <mat-label>הערה להזמנה</mat-label>
+    <input
+      matInput
+      id="remark"
+      name="remark"
+      placeholder="כתוב הערה כאן..."
+      [(ngModel)]="remark"
+      style="font-size: 1.3rem;"
+    />
+  </mat-form-field>
+
+
+  <!-- סטטוס ההזמנה -->
+  <div class="text-center text-white p-3">
+    <strong>
+          <h3>סטטוס ההזמנה</h3>
+          <h3 [ngStyle]="{
+            color: orderStatus === 'הוזמן בהצלחה' ? 'green' :
+                   orderStatus === 'בוטל' ? 'red' : 'gray'
+          }">
+            {{ orderStatus || 'טרם בוצע' }}
+          </h3>
+    </strong>
+  </div>
+
+  <!-- כפתורי אישור וביטול -->
+  <div class="grid grid-cols-2 gap-5 w-full mt-5">
+    <button mat-raised-button color="warn"   (click)="cancelOrder()">ביטול</button>
+    <button mat-raised-button color="primary" (click)="confirmOrder()">אישור</button>
+  </div>
+</div>

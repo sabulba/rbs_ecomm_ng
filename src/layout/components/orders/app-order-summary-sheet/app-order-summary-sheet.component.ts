@@ -2,6 +2,7 @@ import { Component, Inject, Output, EventEmitter } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import {MAT_BOTTOM_SHEET_DATA, MatBottomSheet, MatBottomSheetRef} from '@angular/material/bottom-sheet';
 import {MatButton } from "@angular/material/button";
+import {FirebaseService} from "../../../../shared/firebase/firebase.service";
 
 @Component({
   standalone: true,
@@ -14,8 +15,12 @@ export class OrderSummarySheetComponent {
 
   constructor(@Inject(MAT_BOTTOM_SHEET_DATA) public data: any ,
               private bottomSheetRef: MatBottomSheetRef<OrderSummarySheetComponent>,
-              private bottomSheet: MatBottomSheet) {}
+              private bottomSheet: MatBottomSheet,
+              private firebaseService: FirebaseService) {}
 
+  async ngOnInit() {
+    this.firebaseService.initFromLocalStorage();
+  }
   cancel(): void {
     this.bottomSheetRef.dismiss('canceled');
   }

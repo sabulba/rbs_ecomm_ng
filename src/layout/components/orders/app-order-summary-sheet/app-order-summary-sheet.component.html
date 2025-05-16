@@ -1,26 +1,26 @@
 
-<div class="p-6 text-center space-y-4">
+<div class="bg-gray-200 dark:bg-gray-900 rounded-2xl text-[1.3rem] p-4 rtl text-center">
   <div class="text-green-600 text-4xl">
     <i class="fa-solid fa-circle-check"></i>
   </div>
-  <h2 class="text-xl font-bold">ההזמנה שלך התקבלה בהצלחה</h2>
+  <h2 class="text-gray-700  text-white p-2">
+    שלום <span class="font-semibold">{{ data?.user.firstName }} {{ data?.user.lastName }}</span>
+  </h2>
 
-  <div class="text-gray-700">
-    שלום <span class="font-semibold">{{ data?.user.firstName }} {{ data?.user.lastName }}</span>,
-  </div>
 
-  <div class="text-gray-800">
-    סך התשלום: <span class="font-bold text-lg text-green-700">{{ data?.total | currency: 'ILS' }}</span>
+
+  <div class="text-gray-800  text-white p-1">
+    סך התשלום: <span class="font-bold text-[2rem] text-green-700">{{ data?.total | currency: 'ILS' }}</span>
   </div>
 
   <div class="text-gray-600">
-    סטטוס הזמנה:
     <span class="font-medium capitalize" [ngClass]="{
           'text-yellow-500': data?.orderStatus === 'pending',
           'text-green-500': data?.orderStatus === 'confirmed',
           'text-red-500': data?.orderStatus === 'failed'
         }">
-          {{ data?.orderStatus }}
+          {{ data?.orderStatus === 'pending' ? 'ההזמנה בטיפול' :
+             data?.orderStatus === 'confirmed' ? 'ההזמנה מוכנה' : ''  }}
         </span>
   </div>
 
