@@ -40,18 +40,23 @@
           transition duration-300 flex flex-col justify-between">
 
         <!-- Header -->
-
         <div class="h-[6rem] text-[2rem] font-bold text-gray-800 mb-2 text-center bg-gray-800 text-white
-                    grid grid-cols-[84%_15%] items-start justify-items-center">
-          <div class="grid grid-rows-2">
-            <span class=" text-[2rem] font-bold text-gray-800 mb-2 text-center bg-gray-800 text-white"> {{ order?.firstName + " " + order?.lastName}} </span>
-            <span class="text-[14px] text-white" *ngIf="order?.remark?.trim()">[{{order?.remark}}]</span>
+                    grid grid-cols-[15%_auto_15%] items-center justify-items-center">
+          <ng-container >
+            <i class="fa-solid fa-circle-info" [matMenuTriggerFor]="remarkMenu"  [style.opacity]="order?.remark?.trim() ? 1:0"></i>
+            <mat-menu #remarkMenu="matMenu">
+              <div class="text-black text-[14px] fullWidth p-2">
+                {{ order?.remark || 'אין הערה' }}
+              </div>
+            </mat-menu>
+          </ng-container>
+          <div class=" text-[2rem] font-bold text-gray-800 mb-2 text-center bg-gray-800 text-white">
+            {{ order?.firstName + " " + order?.lastName}}
           </div>
-          <i class="fa-solid mr-2 text-[2rem] justify-end mt-5"
-             [ngClass]="selectedStatus === 'pending' ? 'fa-hourglass-half text-yellow-500':'fa-check text-green-500'"></i>
+          <i class="fa-solid mr-2 text-[2rem] justify-end"
+             [ngClass]="selectedStatus === 'pending' ? 'fa-hourglass-half text-yellow-500':'fa-check text-green-500'">
+          </i>
         </div>
-
-
         <!-- Cart Details -->
         <div class="overflow-y-auto max-h-36 pl-5 pr-5">
           <div *ngFor="let item of order?.cartItems"
@@ -98,38 +103,30 @@
   <!-- Tabs at the bottom of the page -->
   <div
     class="md:hidden grid grid-cols-3 fixed bottom-0 left-0 w-full bg-gray-900 text-white shadow-lg border-t border-gray-300 z-50">
-    <button class="flex flex-col items-center justify-center py-2 w-full" (click)="selectMonth()">
+
+    <button
+      class="flex flex-col items-center justify-center py-2 w-full"
+      (click)="selectMonth(); selectedTab = 'month'"
+      [ngClass]="{ 'text-red-400': selectedTab === 'month' }">
       <i class="fas fa-filter text-xl"></i>
       <span class="text-sm mt-1">סינון חודשי</span>
     </button>
-    <button class="flex flex-col items-center justify-center py-2 w-full" (click)="onStatusChange('confirmed')">
+
+    <button
+      class="flex flex-col items-center justify-center py-2 w-full"
+      (click)="onStatusChange('confirmed'); selectedTab = 'confirmed'"
+      [ngClass]="{ 'text-green-400': selectedTab === 'confirmed' }">
       <i class="fas fa-check-circle text-xl"></i>
       <span class="text-sm mt-1">מטופלות</span>
     </button>
-    <button class="flex flex-col items-center justify-center py-2 w-full" (click)="onStatusChange('pending')">
+
+    <button
+      class="flex flex-col items-center justify-center py-2 w-full"
+      (click)="onStatusChange('pending'); selectedTab = 'pending'"
+      [ngClass]="{ 'text-yellow-400': selectedTab === 'pending' }">
       <i class="fa-solid fa-hourglass-half text-xl"></i>
       <span class="text-sm mt-1">ממתינות</span>
     </button>
   </div>
 </div>
-<!--
-<button
-  class="px-4 py-2 rounded text-sm font-medium
-             row-start-1 col-start-1 w-full"
-  [ngClass]="{
-          'bg-yellow-600 text-white': selectedStatus === 'pending',
-          'bg-gray-200 text-gray-700': selectedStatus !== 'pending'
-        }"
-  (click)="onStatusChange('pending')">ממתין
-</button>
 
-<button
-  class="px-4 py-2 rounded text-sm font-medium
-             row-start-2 col-start-1 w-full"
-  [ngClass]="{
-          'bg-green-600 text-white': selectedStatus === 'confirmed',
-          'bg-gray-200 text-gray-700': selectedStatus !== 'confirmed'
-        }"
-  (click)="onStatusChange('confirmed')">בוצע
-</button>
--->

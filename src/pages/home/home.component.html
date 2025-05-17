@@ -1,45 +1,57 @@
 
 <div class="mt-15 md:mr-5 flex flex-col gap-4  pr-1  pb-5 md:pb-1 md:pr-10 w-[90vw] max-h-[80vh] overflow-auto">
     <!-- Product Grid -->
-    <div *ngIf="!isLoading" class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-4">
-      <div *ngFor="let product of products; let i = index" class="grid  justify-center border rounded shadow p-4 bg-white">
+  <div *ngIf="!isLoading" class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-4">
+    <div *ngFor="let product of products; let i = index" class="relative overflow-hidden border rounded shadow p-4 bg-white dark:bg-gray-900">
 
-        <div class="grid grid-cols-1 grid-rows-2 gap-1 justify-items-center  items-center">
-          <img
+      <!-- Diagonal background up to 5rem -->
+      <div class="absolute bottom-30 left-0 w-full h-60 bg-gray-300 dark:bg-gray-700 transform -skew-y-15 origin-top-left z-0"></div>
 
-            [src]="product?.imageUrl || 'beer.png'"
-            alt="{{ product?.name }}"
-            class="h-20 w-20 rounded-full object-cover row-span-1" />
-            <div class="row-span-2">
-              <h3 class="text-lg font-semibold text-gray-800">{{ product.name }}</h3>
-              <p class="text-gray-600">{{ product.description }}</p>
-              <p class="text-gray-800 font-bold mt-2">{{ product?.price | currency }}</p>
-            </div>
-        </div>
+      <!-- Content -->
+      <div class="relative z-10 flex flex-col items-center justify-center">
+        <!-- Image -->
+        <img [src]="product?.imageUrl || 'beer.png'"
+             alt="{{ product?.name }}"
+             class="h-25 w-25 rounded-full object-cover shadow-lg mt-0" />
+
+        <!-- Title below background -->
+        <h3 class="text-xl font-bold text-gray-800 dark:text-gray-100 mt-6 text-center">
+          {{ product.name }}
+        </h3>
+
+        <!-- Description -->
+        <p class="text-sm text-gray-600 dark:text-gray-300 text-center px-2">
+          {{ product.description }}
+        </p>
+
+        <!-- Price -->
+        <p class="text-lg font-bold mt-2 text-gray-800 dark:text-gray-200">
+          {{ product?.price | currency: 'ILS' : 'symbol' : '1.0-0' }}
+        </p>
+
+        <!-- Add to Cart -->
         <button
-          class="relative mt-4 bg-[#3d3d3d] text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
+          class="relative mt-4 w-6/7 bg-gray-800 dark:bg-gray-600 text-white py-2 px-1 rounded hover:bg-gray-600 dark:hover:bg-gray-500 transition duration-200"
           (click)="addToCart(product)">
-
           <span>הוסף לעגלה</span>
-
           <span
             *ngIf="productCounts[product.id] > 0"
             class="absolute -top-2 -right-2 bg-red-600 text-xs text-white rounded-full w-5 h-5 flex items-center justify-center">
-              {{ productCounts[product.id] }}
-          </span>
-
+          {{ productCounts[product.id] }}
+        </span>
         </button>
       </div>
+    </div>
   </div>
-  <!-- FAB Cart Button -->
+
   <a [routerLink]="['/cart']" >
     <button
-      class="fixed bottom-5 md:mb-10 right-5 z-50 bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-full shadow-lg transition duration-300">
-        <i class="fa-solid fa-cart-shopping text-xl"></i>
+      class="w-18 h-18 fixed bottom-5 md:mb-10 right-5 z-50 bg-gray-800 hover:bg-blue-700 text-white p-4 rounded-full shadow-lg transition duration-300">
+        <i class="fa-solid fa-cart-shopping text-[1.5rem]"></i>
 
         <!-- Badge -->
         <span *ngIf="cartCounter > 0"
-          class="absolute -top-2 -right-2 bg-red-600 text-xs w-5 h-5 rounded-full flex items-center justify-center">
+          class="absolute top-12 left-12 bg-red-600 text-[1rem] font-bold w-7 h-7 rounded-full flex items-center justify-center">
         {{ cartCounter }}
       </span>
       </button>

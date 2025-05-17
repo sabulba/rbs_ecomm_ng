@@ -31,3 +31,6 @@ button {
 ::ng-deep .mat-bottom-sheet-container{
   background: transparent !important;
 }
+::ng-deep   .mat-bottom-sheet-container{
+  box-shadow: unset;
+}

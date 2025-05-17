@@ -121,7 +121,7 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   openCancelOrderSheet() {
-
+    this.cartService.clearCart();
   }
 
   goBack() {

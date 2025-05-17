@@ -1,0 +1,14 @@
+
+<!-- Month Filter -->
+<h1 class="px-4 py-2  text-[2rem] text-end font-medium
+             row-start-3 col-start-1 w-full">סינון חודשי</h1>
+
+<input type="month"
+       class="border border-gray-300 rounded p-2 text-[1.2rem]
+              row-start-4 col-start-1 w-full"
+       [(ngModel)]="selectedDate"/>
+
+<div class="grid grid-cols-2 gap-5 w-full mt-5">
+  <button mat-raised-button color="warn"   (click)="cancelOrder()">ביטול</button>
+  <button mat-raised-button color="primary" (click)="confirmOrder()">אישור</button>
+</div>

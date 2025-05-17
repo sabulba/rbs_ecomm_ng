@@ -1,14 +1,15 @@
 <section class="border-blue-500 mt-15 md:mt-10">
-  <div class="grid grid-cols-[10%_auto_60%] items-center mb-3 text-right rtl">
-    <!-- Back Button (Right in RTL) -->
-    <button (click)="goBack()" class="justify-self-start text-black dark:text-white">
-      <i class="fas fa-arrow-left text-2xl text-gray-700"></i>
+  <div class="w-full md:w-[60%] mx-auto grid grid-cols-[10%_30%_60%] items-center mb-3 md:ml-[2rem] text-right rtl">
+    <button (click)="goBack()" class="justify-self-end text-black dark:text-white">
+      <i class="fas fa-arrow-left text-[1.5rem]  md:text-[2rem]  text-gray-700"></i>
     </button>
-    <h3 class="text-2xl font-semibold text-gray-700 text-center">{{total | currency: 'ILS' }}</h3>
-    <!-- Title Centered -->
-    <h3 class="text-2xl font-semibold text-gray-700 text-right">
+    <div class="flex flex-col items-center justify-ebd text-center">
+      <span
+        class="text-[1.5rem]  md:text-[2rem] font-bold">{{ estimatedTotal | currency:'ILS':'symbol':'1.2-2' }}</span>
+    </div>
+    <h3 class="text-[1.5rem]  md:text-[2rem] font-bold text-right">
       סיכום הזמנה
-      <i title="Shopping Cart" class="fa-solid fa-bag-shopping mr-2"></i>
+      <i title="Shopping Cart" class="fa-solid fa-bag-shopping mr-2 "></i>
     </h3>
   </div>
   <ng-template #empty>
@@ -25,34 +26,35 @@
       </div>
     </section>
   </ng-template>
-
-  <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-6 w-[90vw] h-full md:w-[50vw]" *ngIf="cart.length>0; else empty">
+  <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-6 w-[90vw] h-full md:w-[50vw]"
+       *ngIf="cart.length>0; else empty">
     <article class="col-span-1 md:col-span-2 lg:col-span-2 ">
       <div class="grid gap-3 border-y-2 border-gray-300 overflow-y-auto max-h-[67vh] md:max-h-[550px] p-2">
         <app-cartitem
           *ngFor="let item of cart"
-          [item]="item"
-        >
+          [item]="item">
         </app-cartitem>
       </div>
-
-      <div class="hidden md:grid grid-cols-1 md:grid-cols-3 gap-4 w-full items-center">
-
+      <div class="hidden md:grid grid-cols-1 md:grid-cols-3 gap-4 w-full items-center p-3">
         <!-- Reset Cart -->
         <div class="flex justify-center">
           <button (click)="clearCart()"
                   class="flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white px-20 py-3 rounded shadow text-xl font-semibold">
-            <i class="fa-solid fa-trash text-xl"></i>
             <span class="text-lg">מחיקה</span>
+            <i class="fa-solid fa-trash text-xl"></i>
           </button>
         </div>
-
-        <!-- Total Display (centered and enlarged) -->
-        <div class="flex flex-col items-center justify-center text-center">
-          <span class="text-4xl font-bold">{{ estimatedTotal | currency:'ILS':'symbol':'1.2-2' }}</span>
-          <span class="text-2xl font-semibold mt-1">סה"כ</span>
+        <!-- manual member Submit Button -->
+        <div class="flex justify-center">
+          <button
+            type="submit"
+            [disabled]="cartService.isLoading"
+            (click)="openManualPaymentSheet()"
+            class="flex items-center justify-center gap-2 bg-green-500 hover:bg-[#2f4e89] text-white px-20 py-3 rounded shadow text-xl font-semibold">
+            <span class="text-lg">תשלום ידני</span>
+            <i class="fa-solid fa-money-bill  text-lg"></i>
+          </button>
         </div>
-
         <!-- Submit Button -->
         <div class="flex justify-center">
           <button
@@ -61,18 +63,16 @@
             (click)="saveOrder()"
             class="flex items-center justify-center gap-2 bg-[#3c64a9] hover:bg-[#2f4e89] text-white px-20 py-3 rounded shadow text-xl font-semibold">
             <span class="text-lg">תשלום</span>
-            <i class="fa-solid fa-lock text-lg"></i>
+            <i class="fa-solid fa-credit-card text-lg"></i>
           </button>
         </div>
-
       </div>
-
       <!-- Tabs at the bottom of the page -->
       <div
         class="md:hidden grid grid-cols-3 fixed bottom-0 left-0 w-full bg-gray-900 text-white shadow-lg border-t border-gray-300 z-50">
         <button class="flex flex-col items-center justify-center py-2 w-full" (click)="openCancelOrderSheet()">
-          <i class="fa-solid fa-xmark text-xl"></i>
-          <span class="text-sm mt-1">ביטול</span>
+          <i class="fa-solid fa-refresh text-xl"></i>
+          <span class="text-sm mt-1">איפוס</span>
         </button>
         <button class="flex flex-col items-center justify-center py-2 w-full" (click)="openManualPaymentSheet()">
           <i class="fa-solid fa-money-bill text-xl"></i>
