@@ -1,4 +1,4 @@
-<ng-container *ngIf="isLoading; else table">
+<ng-container *ngIf="isLoading; else content">
   <div class="loading-container">
     <mat-progress-spinner
       mode="indeterminate"
@@ -7,55 +7,72 @@
     </mat-progress-spinner>
   </div>
 </ng-container>
+<ng-template #content>
+  <div class="mt-15 w-[90vw] md:w-[40vw]">
+    <!-- Action Buttons -->
+    <div class=" md:w-[20vw] grid grid-cols-[40%_50%] md:grid-cols-[35%_60%] justify-between gap-4 mb-4 mr-auto ">
+      <button mat-raised-button color="accent" (click)="createAccount()">הוספת חדש.ה</button>
+      <div>
+        <button mat-raised-button color="accent" (click)="fileInput.click()">ייבוא חשבונות</button>
+        <input #fileInput type="file" accept=".csv" (change)="onFileSelected($event)" hidden/>
+      </div>
+    </div>
 
-<ng-template #table>
-  <ng-container *ngIf="!isLoading">
-    <div class="table-container  mt-5">
+    <!-- Desktop Table -->
+    <div *ngIf="!isMobile" class="overflow-y-scroll overflow-x-hidden max-h-[72vh]">
       <table mat-table [dataSource]="accounts" class="mat-elevation-z8" matSort>
-
-        <!-- First Name Column -->
-        <ng-container matColumnDef="firstName" sticky>
+        <ng-container matColumnDef="firstName">
           <th mat-header-cell *matHeaderCellDef>שם פרטי</th>
           <td mat-cell *matCellDef="let account">{{ account.firstName }}</td>
         </ng-container>
-
-        <!-- Last Name Column -->
         <ng-container matColumnDef="lastName">
           <th mat-header-cell *matHeaderCellDef>שם משפחה</th>
           <td mat-cell *matCellDef="let account">{{ account.lastName }}</td>
         </ng-container>
-
-        <!-- Account Number Column -->
-        <ng-container matColumnDef="accountNumber" >
+        <ng-container matColumnDef="accountNumber">
           <th mat-header-cell *matHeaderCellDef>מספר חשבון</th>
           <td mat-cell *matCellDef="let account">{{ account.accountNumber }}</td>
         </ng-container>
-
-        <!-- Actions Column -->
-        <ng-container matColumnDef="actions" class="grid auto-cols-auto p-4">
-          <th mat-header-cell *matHeaderCellDef>
-            <div class="create-button-container grid grid-cols-2">
-              <button mat-raised-button color="accent" (click)="createAccount()" class="m-3 ">הוספת חדש.ה</button>
-              <div class="ml-1 mt-3">
-                <button mat-raised-button color="accent" (click)="fileInput.click()" class="w-[130px]">ייבוא חשבונות</button>
-                <input #fileInput type="file" accept=".csv" (change)="onFileSelected($event)" hidden />
-              </div>
-            </div>
-          </th>
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>פעולות</th>
           <td mat-cell *matCellDef="let account">
-            <button mat-raised-button color="primary" class="action-btn" (click)="editAccount(account)">Edit</button>
-            <button mat-raised-button color="warn" class="action-btn" (click)="deleteAccount(account)">Delete</button>
+            <button mat-raised-button color="primary" (click)="editAccount(account)">עריכה</button>
+            <button mat-raised-button color="warn" (click)="deleteAccount(account)">מחיקה</button>
           </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
       </table>
-
-
     </div>
-  </ng-container>
+    <!-- Mobile Accordion -->
+    <div *ngIf="isMobile" class="overflow-y-scroll overflow-x-hidden max-h-[72vh]">
+      <mat-accordion class="grid grid-flow-row gap-3"  dir="rtl">
+        <mat-expansion-panel *ngFor="let account of accounts.data">
+          <mat-expansion-panel-header >
+            <mat-panel-title>
+              <b class="text-white text-[1rem]">{{ account?.firstName }} {{ account?.lastName }}</b>
+            </mat-panel-title>
+            <mat-panel-description>
+              <b class="text-white text-[1rem]">  חשבון:  {{ account?.accountNumber }}</b>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
 
+          <div class="text-right px-4 py-2">
+            <p><strong>שם פרטי:</strong> {{ account?.firstName }}</p>
+            <p><strong>שם משפחה:</strong> {{ account?.lastName }}</p>
+            <p><strong>מספר חשבון:</strong> {{ account?.accountNumber }}</p>
+
+            <div class="mt-3 flex gap-2">
+              <button mat-raised-button color="primary" (click)="editAccount(account)">עריכה</button>
+              <button mat-raised-button color="warn" (click)="deleteAccount(account)">מחיקה</button>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </div>
 </ng-template>
+
 <app-fab-menu></app-fab-menu>
+
