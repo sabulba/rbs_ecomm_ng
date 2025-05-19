@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
-import { CurrencyPipe, NgIf, NgTemplateOutlet } from '@angular/common';
+import {CurrencyPipe, NgFor, NgIf, NgTemplateOutlet} from '@angular/common';
 import { firstValueFrom } from 'rxjs';
 import { addDoc, collection, deleteDoc, doc, Firestore, onSnapshot, updateDoc } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
@@ -13,6 +13,14 @@ import { Product } from '../../../../models';
 import { ProductDialogComponent } from '../../shared/product-dialog/product-dialog.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FabMenuComponent} from "../../../../layout/components/fab-menu/fab-menu.component";
+import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
+import {
+  MatAccordion,
+  MatExpansionPanel,
+  MatExpansionPanelDescription,
+  MatExpansionPanelHeader,
+  MatExpansionPanelTitle
+} from "@angular/material/expansion";
 
 @Component({
   standalone: true,
@@ -20,6 +28,7 @@ import { FabMenuComponent} from "../../../../layout/components/fab-menu/fab-menu
   templateUrl: './admin-products.component.html',
   styleUrls: ['./admin-products.component.css'],
   imports: [
+    NgFor,
     MatTableModule,
     MatSortModule,
     MatButtonModule,
@@ -28,20 +37,32 @@ import { FabMenuComponent} from "../../../../layout/components/fab-menu/fab-menu
     NgTemplateOutlet,
     MatProgressSpinnerModule,
     FabMenuComponent,
+    MatAccordion,
+    MatExpansionPanel,
+    MatExpansionPanelHeader,
+    MatExpansionPanelTitle,
+    MatExpansionPanelDescription
   ]
 })
 export class AdminProductsComponent implements OnInit {
-  products: MatTableDataSource<Product> = new MatTableDataSource<Product>();
+  products: MatTableDataSource<any> = new MatTableDataSource<Product>();
   displayedColumns: string[] = ['imageUrl','name', 'category', 'price', 'actions'];
   isLoading = true;
   firestore!: Firestore;
+  isMobile = false;
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     private firebaseService: FirebaseService,
     private router: Router,
-    private dialog: MatDialog
-  ) {}
+    private dialog: MatDialog,
+    private breakpointObserver: BreakpointObserver,
+  ) {
+    this.breakpointObserver.observe([Breakpoints.Handset])
+      .subscribe(result => {
+        this.isMobile = result.matches;
+      });
+  }
 
   async ngOnInit() {
     try {

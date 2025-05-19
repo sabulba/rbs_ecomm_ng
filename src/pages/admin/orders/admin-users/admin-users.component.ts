@@ -31,7 +31,13 @@ import {MatFormField} from "@angular/material/form-field";
 import {MatInput, MatInputModule} from "@angular/material/input";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatSelect} from "@angular/material/select";
-
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import {
+  MatAccordion,
+  MatExpansionPanel, MatExpansionPanelDescription,
+  MatExpansionPanelHeader,
+  MatExpansionPanelTitle
+} from "@angular/material/expansion";
 @Component({
   selector: 'app-admin-users',
   standalone: true,
@@ -56,7 +62,12 @@ import {MatSelect} from "@angular/material/select";
     MatInputModule,
     ReactiveFormsModule,
     MatSelect,
-    JsonPipe
+    JsonPipe,
+    MatAccordion,
+    MatExpansionPanel,
+    MatExpansionPanelHeader,
+    MatExpansionPanelTitle,
+    MatExpansionPanelDescription
   ]
 })
 export class AdminUsersComponent implements OnInit {
@@ -64,14 +75,19 @@ export class AdminUsersComponent implements OnInit {
   displayedColumns: string[] = ['email', 'firstName', 'lastName', 'cellular', 'accountNumber', 'status', 'actions'];
   isLoading = true;
   firestore!: Firestore;
-
+  isMobile = false;
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     private firebaseService: FirebaseService,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private breakpointObserver: BreakpointObserver,
   ) {
+    this.breakpointObserver.observe([Breakpoints.Handset])
+      .subscribe(result => {
+        this.isMobile = result.matches;
+      });
   }
 
   async ngOnInit() {
@@ -201,5 +217,7 @@ export class AdminUsersComponent implements OnInit {
   // }
 
 
+  editAccount(account: any) {
 
+  }
 }

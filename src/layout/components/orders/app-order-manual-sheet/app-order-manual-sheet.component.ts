@@ -29,7 +29,7 @@ export class AppOrderManualSheetComponent {
   isLoading = true;
   searchControl = new FormControl('');
   orderStatus: string = '';
-
+  readonly = true;
   constructor( private firebaseService: FirebaseService,private bottomSheetRef: MatBottomSheetRef<AppOrderManualSheetComponent>) {
     this.searchControl.valueChanges.subscribe((value : any) => {
       this.filteredUsers = this._filter(value);

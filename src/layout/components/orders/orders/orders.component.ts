@@ -1,6 +1,6 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {Router, RouterModule} from "@angular/router";
-import {CommonModule} from "@angular/common";
+import {CommonModule,DatePipe } from "@angular/common";
 import {FirebaseService} from "../../../../shared/firebase/firebase.service";
 import {collection, onSnapshot, updateDoc, deleteDoc, doc} from "@angular/fire/firestore";
 import {filter, firstValueFrom, Subscription} from "rxjs";
@@ -18,6 +18,7 @@ import {DateSelectorSheetComponent} from "../../../../shared/date-selector-sheet
   selector: 'app-orders',
   standalone: true,
   imports: [RouterModule, CommonModule, MatTooltipModule, MatIconButton, MatMenuModule, MatIcon],
+  providers: [DatePipe],
   templateUrl: './orders.component.html',
   styleUrl: './orders.component.css'
 })
@@ -27,17 +28,21 @@ export class OrdersComponent implements OnInit, OnDestroy {
   isLoading = true;
 
   selectedStatus: 'pending' | 'confirmed' = 'pending';
-  selectedMonth: string = '';
+  selectedMonth: string | null = null;
   selectedTab: string = 'pending'; // ברירת מחדל
   unsubscribe: () => void = () => {
   };
 
   constructor(private firebaseService: FirebaseService,
               private router: Router ,
-              private bottomSheet: MatBottomSheet) {}
+              private bottomSheet: MatBottomSheet,
+              private datePipe: DatePipe) {}
 
   async ngOnInit() {
     try {
+      const now = new Date();
+      this.selectedMonth = now.toISOString().slice(0, 7);
+
       this.firebaseService.initFromLocalStorage();
       const firestore = await firstValueFrom(
         this.firebaseService.getNewFirestore$().pipe(filter((f) => !!f))
@@ -129,13 +134,14 @@ export class OrdersComponent implements OnInit, OnDestroy {
   }
 
   selectMonth() {
+    this. selectedTab = 'month';
     const bottomSheetRef = this.bottomSheet.open(DateSelectorSheetComponent, {
-      height: '28vh',
+      height: '38vh',
     });
 
     bottomSheetRef.afterDismissed().subscribe((result) => {
       if (!result || result.status === 'canceled') return; // prevent duplicate
-      this.selectedMonth = result.selectedDate;
+      this.selectedMonth = this.datePipe.transform(result.selectedDate, 'yyyy-MM');
       this.applyFilters();
     });
   }

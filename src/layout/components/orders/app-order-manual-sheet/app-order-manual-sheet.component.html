@@ -11,6 +11,8 @@
         matInput
         [formControl]="searchControl"
         [matAutocomplete]="auto"
+        [readonly]="readonly"
+        (click)="readonly = false"
       />
       <button
         *ngIf="searchControl.value"

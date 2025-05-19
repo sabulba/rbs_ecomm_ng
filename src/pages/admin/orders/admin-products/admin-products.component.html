@@ -10,7 +10,7 @@
 
 <ng-template #table>
   <ng-container *ngIf="!isLoading">
-    <div class="table-container mt-5">
+    <div *ngIf="!isMobile" class="table-container mt-15 overflow-y-scroll overflow-x-hidden max-h-[72vh]">
       <table mat-table [dataSource]="products" class="mat-elevation-z8 w-full " matSort>
         <!-- Image Column -->
         <ng-container matColumnDef="imageUrl" >
@@ -60,4 +60,38 @@
   </ng-container>
 
 </ng-template>
+<!-- Mobile Accordion -->
+<div *ngIf="isMobile" class="overflow-y-scroll overflow-x-hidden w-[90vw] max-h-[72vh] mt-15 ">
+  <mat-accordion multi class="grid grid-flow-row gap-3"  dir="rtl">
+    <mat-expansion-panel *ngFor="let product of products.data">
+      <mat-expansion-panel-header>
+        <mat-panel-title >
+          <b class="text-white text-[1rem]">שם מוצר: {{ product?.name }}</b>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <div class="text-right p-5">
+        <p><strong>שם מוצר:</strong> {{ product?.name }}</p>
+        <p><strong>קטגוריה:</strong> {{ product?.category }}</p>
+        <p><strong>מחיר:</strong> {{ product?.price }}</p>
+        <div>
+          <img
+            *ngIf="product?.imageUrl"
+            [src]="product.imageUrl"
+            class="w-[5rem] h-[5rem] rounded"
+            alt="Product image"
+          />
+          <i
+            *ngIf="!product?.imageUrl"
+            class="fas fa-image text-gray-400 text-4xl"
+          ></i>
+        </div>
+        <div  class="grid grid-cols-2 justify-items-end w-[18rem] p-3">
+          <button mat-raised-button color="primary" class="action-btn" (click)="editProduct(product)">עריכה</button>
+          <button mat-raised-button color="warn"    class="action-btn" (click)="deleteProduct(product)">מחיקה</button>
+        </div>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
 <app-fab-menu></app-fab-menu>

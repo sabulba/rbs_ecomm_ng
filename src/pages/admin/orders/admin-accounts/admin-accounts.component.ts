@@ -29,9 +29,13 @@ import {AccountDialogComponent} from "../../shared/account-dialog/account-dialog
 import {CommonModule, CurrencyPipe} from "@angular/common";
 import {MatButton} from "@angular/material/button";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import * as Papa from 'papaparse';
-import {getStorage, ref, uploadBytes} from "@angular/fire/storage";
-
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import {
+  MatAccordion,
+  MatExpansionModule,
+  MatExpansionPanel,
+  MatExpansionPanelHeader
+} from "@angular/material/expansion";
 @Component({
   selector: 'app-admin-accounts',
   standalone: true,
@@ -51,7 +55,11 @@ import {getStorage, ref, uploadBytes} from "@angular/fire/storage";
     MatHeaderRow,
     MatRow,
     MatHeaderRowDef,
-    MatRowDef
+    MatRowDef,
+    MatAccordion,
+    MatExpansionPanel,
+    MatExpansionPanelHeader,
+    MatExpansionModule
   ],
   templateUrl: './admin-accounts.component.html',
   styleUrl: './admin-accounts.component.css'
@@ -61,14 +69,20 @@ export class AdminAccountsComponent implements OnInit{
   displayedColumns: string[] = ['firstName', 'lastName', 'accountNumber', 'actions'];
   isLoading = true;
   firestore!: Firestore;
-
+  isMobile = false;
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     private firebaseService: FirebaseService,
     private router: Router,
-    private dialog: MatDialog
-  ) {}
+    private dialog: MatDialog,
+    private breakpointObserver: BreakpointObserver,
+  ) {
+    this.breakpointObserver.observe([Breakpoints.Handset])
+      .subscribe(result => {
+        this.isMobile = result.matches;
+      });
+  }
 
   async ngOnInit() {
     this.firebaseService.initFromMainConfig();

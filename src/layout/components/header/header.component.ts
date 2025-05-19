@@ -63,11 +63,6 @@ export class HeaderComponent implements OnInit {
       if (!this.isLoggedIn) {
         this.router.navigate(['/login']);
       }
-      // const config = JSON.parse(localStorage.getItem('firebaseConfig') || '{}');
-      // if (config.logo) {
-      //   this.layoutService.setLogo(config.logo);
-      //   this.logoUrl= config.logo;
-      // }
       this.layoutService.logo$.subscribe((logo) => {
         this.logoUrl = logo;
       });

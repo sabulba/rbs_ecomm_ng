@@ -1,3 +1,22 @@
+/* Style for the date selector sheet */
+::ng-deep mat-form-field.mat-form-field {
+  padding-top: 1.6em !important; /* יותר מקום ל-label */
+}
+
+::ng-deep .mat-form-field-wrapper {
+  padding-top: 2.6em !important;
+}
+
+::ng-deep .mat-form-field-label {
+  top: 1.2em !important;
+  font-size: 1.3rem !important;
+}
+::ng-deep .mat-bottom-sheet-container{
+  background: transparent !important;
+}
 ::ng-deep   .mat-bottom-sheet-container{
   box-shadow: unset;
+}
+input {
+  background: silver !important;
 }

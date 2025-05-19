@@ -113,3 +113,19 @@ footer {
   line-height: 3rem;
   font-size: 1.2rem;
 }
+::ng-deep mat-expansion-panel-header {
+  background-color: #3f51b5 !important; /* Tailwind blue-500 */
+  color: white !important;
+}
+
+::ng-deep mat-expansion-panel-header.mat-expanded {
+  background-color: #3f51b5 !important; /* same for expanded state */
+  color: white !important;
+}
+
+::ng-deep svg{
+    font-size: 1rem;
+    font-weight: bold;
+    color: white !important;
+  }
+
